@@ -1,0 +1,56 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+header {
+    background-color: #323643;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo_img {
+    float: left;
+}
+
+.logo_name p {
+    margin: 0;
+}
+
+#logo_first_name, #logo_last_name {
+    font-family: futura;
+    text-transform: uppercase;
+}
+
+#logo_first_name {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+#logo_last_name {
+    font-size: 15px;
+}
+
+body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+textarea {
+    min-height: 60px;
+    max-height: 300px;
+}
+
+footer p {
+    margin-bottom: .25rem;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+}
