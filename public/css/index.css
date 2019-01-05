@@ -7,9 +7,23 @@ header {
     background-color: #323643;
 }
 
-.logo {
+.menu a{
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 30px;
+}
+
+.logo, .menu {
     display: flex;
     align-items: center;
+}
+
+.main_form, .main_description {
+    padding: 30px;
+}
+
+.main_form form {
+    width: 60%;
 }
 
 .logo_img {
@@ -53,4 +67,24 @@ footer {
     width: 100%;
     height: 60px;
     line-height: 60px;
+}
+
+/* user page */
+
+.user_data {
+    width: 90%;
+}
+
+.user_photo, .user_info, .user_menu {
+    margin: 30px;
+}
+
+.user_photo {
+    width: 20%;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+
+.user_photo img {
+    width: 100%;
+    vertical-align: middle;
 }

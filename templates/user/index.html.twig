@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="column user_data">
+                <div class="row">
+                    <div class="user_photo">
+                        <img src="/img/default.png" alt="">
+                    </div>
+                    <div class="user_info">
+                        <p>{{ user.firstName }} {{ user.lastName }}</p>
+                        <p>Status:
+                            {% if user.isActive %}
+                                online
+                            {% else %}
+                                offline
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="row posts">
+
+                </div>
+            </div>
+            <div class="column user_menu">
+                <p><a href="{{ path('app_logout') }}">Logout</a></p>
+                <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
