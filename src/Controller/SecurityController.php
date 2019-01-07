@@ -40,6 +40,10 @@ class SecurityController extends AbstractController
             $user->setPassword($password);
             $user->setIsActive(true);
 
+            if($user->getTrainerAccepted()){
+                $user->addRole('ROLE_USER_TRAINER');
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

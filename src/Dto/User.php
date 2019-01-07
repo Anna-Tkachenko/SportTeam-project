@@ -17,6 +17,7 @@ class User
     private $isActive;
     private $firstName;
     private $lastName;
+    private $image;
 
     public function __construct(
         string $username,
@@ -24,7 +25,8 @@ class User
         string $email,
         bool $isActive,
         string $firstName,
-        string $lastName
+        string $lastName,
+        $image
     )
     {
        $this->username = $username;
@@ -33,6 +35,7 @@ class User
        $this->isActive = $isActive;
        $this->firstName = $firstName;
        $this->lastName = $lastName;
+       $this->image = $image;
     }
 
     public function getUsername(): string
@@ -59,5 +62,13 @@ class User
     public function getLastName(): string
     {
         return $this->lastName;
+    }
+    public function getImage(): ?string
+    {
+        if(is_null($this->image)){
+            return '/img/default.png';
+        }
+        return $this->image;
+
     }
 }

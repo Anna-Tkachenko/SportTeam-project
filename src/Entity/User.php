@@ -60,6 +60,13 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    private $trainerAccepted;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +130,16 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $password;
     }
 
+    public function getTrainerAccepted()
+    {
+        return $this->trainerAccepted;
+    }
+
+    public function setTrainerAccepted($trainerAccepted)
+    {
+        $this->trainerAccepted = $trainerAccepted;
+    }
+
     public function getSalt()
     {
         return null;
@@ -135,6 +152,11 @@ class User implements UserInterface, \Serializable
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function addRole(string $role)
+    {
+        $this->roles[] = $role;
     }
 
     public function eraseCredentials()
@@ -181,5 +203,17 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             ) = unserialize($serialized);
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

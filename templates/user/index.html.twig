@@ -5,7 +5,7 @@
             <div class="column user_data">
                 <div class="row">
                     <div class="user_photo">
-                        <img src="/img/default.png" alt="">
+                        <img src="{{ user.image }}" alt="">
                     </div>
                     <div class="user_info">
                         <p>{{ user.firstName }} {{ user.lastName }}</p>
@@ -14,6 +14,14 @@
                                 online
                             {% else %}
                                 offline
+                            {% endif %}
+                        </p>
+                        <p>
+                            Role:
+                            {% if is_granted('ROLE_USER_TRAINER') %}
+                                trainer
+                            {% else %}
+                                simple user
                             {% endif %}
                         </p>
                     </div>
@@ -25,6 +33,7 @@
             <div class="column user_menu">
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
                 <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
+                <p><a href="{{ path('settings', {slug: currentUser.username}) }}">Settings</a></p>
             </div>
         </div>
     </div>

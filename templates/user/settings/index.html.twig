@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="column user_data">
+                <div class="row">
+                    <div class="user_photo">
+                        {% if currentUser.image is null %}
+                            <img src="/img/default.png" alt="">
+                        {% else %}
+                            <img src="{{ currentUser.image }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="user_info">
+                        <p><a href="#">Change image</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="column user_menu">
+                <p><a href="{{ path('app_logout') }}">Logout</a></p>
+                <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

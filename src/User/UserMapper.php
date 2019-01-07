@@ -28,7 +28,8 @@ class UserMapper
             $entity->getEmail(),
             $entity->getIsActive(),
             $entity->getFirstName(),
-            $entity->getLastName()
+            $entity->getLastName(),
+            $entity->getImage()
         );
     }
 }
