@@ -26,15 +26,31 @@
                         </p>
                     </div>
                 </div>
-                <div class="row posts">
-
-                </div>
             </div>
+
             <div class="column user_menu">
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
                 <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
                 <p><a href="{{ path('settings', {slug: currentUser.username}) }}">Settings</a></p>
+                {% if is_granted('ROLE_USER_TRAINER') %}
+                    <p><a href="{{ path('add_post', {slug: currentUser.username}) }}">Add post</a></p>
+                {% endif %}
             </div>
         </div>
+
+    {% if is_granted('ROLE_USER_TRAINER') %}
+
+        <div class="container-fluid">
+            {% for post in userPosts %}
+                <div class="post_item">
+                    <p>Name: {{ post.name }}</p>
+                    <p>{{ post.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+
     </div>
 {% endblock %}

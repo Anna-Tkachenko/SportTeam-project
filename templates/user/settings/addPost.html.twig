@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="column user_data">
+                <div class="row">
+                    <div class="user_photo">
+                        {% if currentUser.image is null %}
+                            <img src="/img/default.png" alt="">
+                        {% else %}
+                            <img src="{{ currentUser.image }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="user_info">
+                        <p><a href="#">Info</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="column user_menu">
+                <p><a href="{{ path('app_logout') }}">Logout</a></p>
+                <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
+                <p><a href="{{ path('add_post', {slug: currentUser.username}) }}">Add post</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row posts_form container">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <label for="name">Post name</label>
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="content">Post content</label>
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add post</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

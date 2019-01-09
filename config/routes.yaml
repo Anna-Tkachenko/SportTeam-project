@@ -15,3 +15,6 @@ app_logout:
 settings:
     path: /user/{slug}/settings
     controller: App\Controller\SettingsController::index
+add_post:
+    path: /user/{slug}/addPost
+    controller: App\Controller\UserController::addPost

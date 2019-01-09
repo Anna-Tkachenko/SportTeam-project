@@ -14,4 +14,8 @@ interface UserPageInterface
     public function getCurrentUser();
 
     public function getUser(string $slug);
+
+    public function getUserEntity(string $slug);
+
+    public function getPosts(string $slug);
 }

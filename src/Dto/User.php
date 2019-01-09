@@ -9,7 +9,7 @@
 namespace App\Dto;
 
 
-class User
+final class User
 {
     private $username;
     private $password;
