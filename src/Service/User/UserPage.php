@@ -58,4 +58,17 @@ class UserPage implements UserPageInterface
         return $collection;
     }
 
+    public function getPost(string $id)
+    {
+        return $this->postRepository->find($id);
+    }
+
+    public function verifyPostAdding(string $username, $datetime)
+    {
+        if($this->postRepository->verifyPublished($username, $datetime) != []){
+            return false;
+        }
+
+        return true;
+    }
 }

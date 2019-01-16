@@ -18,4 +18,8 @@ interface UserPageInterface
     public function getUserEntity(string $slug);
 
     public function getPosts(string $slug);
+
+    public function getPost(string $id);
+
+    public function verifyPostAdding(string $username, $datetime);
 }

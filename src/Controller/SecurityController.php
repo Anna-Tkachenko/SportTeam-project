@@ -37,6 +37,7 @@ class SecurityController extends AbstractController
     public function logout()
     {
     }
+
     /**
      * @Route("/signup", name="app_register")
      */

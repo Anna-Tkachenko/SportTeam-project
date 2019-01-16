@@ -1,20 +1,23 @@
-index:
-    path: /
-    controller: App\Controller\DefaultController::index
+#index:
+  #  path: /
+  #  controller: App\Controller\DefaultController::index
 #registration:
    # path: /signup
    # controller: App\Controller\SecurityController::registration
 #login:
    # path: /login
    # controller: App\Controller\SecurityController::login
-user:
-    path: /user/{slug}
-    controller: App\Controller\UserController::show
+#user:
+ #   path: /user/{slug}
+  #  controller: App\Controller\UserController::show
 #app_logout:
    # path: /logout
-settings:
-    path: /user/{slug}/settings
-    controller: App\Controller\SettingsController::index
-add_post:
-    path: /user/{slug}/addPost
-    controller: App\Controller\UserController::addPost
+#settings:
+ #   path: /user/{slug}/settings
+ #   controller: App\Controller\SettingsController::index
+#add_post:
+  #  path: /user/{slug}/addPost
+  #  controller: App\Controller\UserController::addPost
+#delete_post:
+  #  path: /user/deletePost/{slug}
+  #  controller: App\Controller\UserController::deletePost

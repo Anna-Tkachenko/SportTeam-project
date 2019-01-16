@@ -3,31 +3,9 @@ html {
     min-height: 100%;
 }
 
-header {
-    background-color: #323643;
-}
-
-.menu a{
-    color: #ffffff;
-    text-decoration: none;
-    margin-left: 30px;
-}
-
 .logo, .menu {
     display: flex;
     align-items: center;
-}
-
-.main_form, .main_description {
-    padding: 30px;
-}
-
-.main_form form {
-    width: 60%;
-}
-
-.logo_img {
-    float: left;
 }
 
 .logo_name p {
@@ -49,7 +27,7 @@ header {
 }
 
 body {
-    margin-bottom: 60px; /* Margin bottom by footer height */
+    margin-top: 180px; /* Margin bottom by footer height */
 }
 
 textarea {
@@ -62,38 +40,27 @@ footer p {
 }
 
 footer {
+    background-color: #f5f5f5;
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px;
-    line-height: 60px;
 }
 
-/* user page */
+@media (max-width: 600px) {
+    #logo_first_name {
+        font-size: 22px;
+    }
 
-.user_data {
-    width: 90%;
+    #logo_last_name {
+        font-size: 12px;
+    }
+
 }
 
-.user_photo, .user_info, .user_menu {
-    margin: 30px;
+@media (max-width: 575px) {
+    body {
+        margin-top: 280px;
+    }
 }
 
-.user_photo {
-    width: 20%;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-}
-
-.user_photo img {
-    width: 100%;
-    vertical-align: middle;
-}
-
-.row {
-    margin-left: 0;
-}
-
-.post_item {
-    border: 1px solid rgba(0,0,0,.075);
-}
 

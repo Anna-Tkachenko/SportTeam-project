@@ -11,22 +11,33 @@ namespace App\Dto;
 
 final class Post
 {
+    private $id;
     private $name;
     private $content;
     private $isPublished;
     private $dateCreation;
+    private $author;
 
     public function __construct(
+        $id,
         string $name,
         string $content,
         bool $isPublished,
-        $dateCreation
+        $dateCreation,
+        string $author
     )
     {
+        $this->id = $id;
         $this->name = $name;
         $this->content = $content;
         $this->isPublished = $isPublished;
         $this->dateCreation = $dateCreation;
+        $this->author = $author;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
@@ -47,5 +58,10 @@ final class Post
     public function getDateCreation()
     {
         return $this->dateCreation;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

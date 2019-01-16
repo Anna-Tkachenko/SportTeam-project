@@ -12,4 +12,6 @@ namespace App\Repository\Post;
 interface PostRepositoryInterface
 {
     public function findByUser(string $slug);
+
+    public function verifyPublished(string $username, $dateCreation);
 }

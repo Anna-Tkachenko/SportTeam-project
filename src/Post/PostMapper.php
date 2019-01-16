@@ -23,10 +23,12 @@ class PostMapper
     public function entityToDto(Post $entity): PostDto
     {
         return new PostDto(
+            $entity->getId(),
             $entity->getName(),
             $entity->getContent(),
             $entity->getIsPublished(),
-            $entity->getDateCreation()
+            $entity->getDateCreation(),
+            $entity->getAuthor()
         );
     }
 }

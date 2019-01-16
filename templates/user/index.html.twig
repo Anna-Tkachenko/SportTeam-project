@@ -1,8 +1,29 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/user_page.css') }}" rel="stylesheet">
+{% endblock %}
+{% block header %}
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="col-sm-3 col-md-3 py-2 logo navbar-brand">
+                <div class="logo_name text-white">
+                    <p><span id="logo_first_name">
+                           Sportteam
+                       </span> <br>
+                        <span id="logo_last_name">
+                           One world. One dream.
+                       </span>
+                    </p>
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endblock %}
 {% block body %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="column user_data">
+            <div class="col-sm-9 user_data">
                 <div class="row">
                     <div class="user_photo">
                         <img src="{{ user.image }}" alt="">
@@ -27,8 +48,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="column user_menu">
+            <div class="col-sm-3 user_menu">
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
                 <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
                 <p><a href="{{ path('settings', {slug: currentUser.username}) }}">Settings</a></p>
@@ -37,20 +57,29 @@
                 {% endif %}
             </div>
         </div>
-
-    {% if is_granted('ROLE_USER_TRAINER') %}
-
-        <div class="container-fluid">
-            {% for post in userPosts %}
-                <div class="post_item">
-                    <p>Name: {{ post.name }}</p>
-                    <p>{{ post.content }}</p>
+    </div>
+        <div class="container">
+            {% for message in app.flashes('notice') %}
+                <div class="col-sm-5 flash-notice">
+                    {{ message }}
                 </div>
             {% endfor %}
+
+            {% for post in userPosts %}
+                    <div class="col-sm-5 post_item">
+                        <h3>{{ post.name }}</h3>
+                        <p>{{ post.content }}</p>
+                        <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
+                        {% if currentUser.username == user.username %}
+                            <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
+                        {% else %}
+
+                            {% if currentUser.username != post.author %}
+                            <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
+                            {% endif %}
+
+                        {% endif %}
+                    </div>
+            {% endfor %}
         </div>
-
-    {% endif %}
-
-
-    </div>
 {% endblock %}
