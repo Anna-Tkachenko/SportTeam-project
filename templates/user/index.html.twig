@@ -45,15 +45,31 @@
                                 simple user
                             {% endif %}
                         </p>
+
+                        {% if follow_status == '1' %}
+                            <p>
+                                <a href="{{ path('follow', {slug: user.username}) }}">Follow</a>
+                            </p>
+                        {% elseif follow_status == '2' %}
+                            <p>
+                                <a href="{{ path('unfollow', {slug: user.username}) }}">Unfollow</a>
+                            </p>
+                        {% else %}
+                                <p>My page</p>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
             <div class="col-sm-3 user_menu">
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
-                <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
-                <p><a href="{{ path('settings', {slug: currentUser.username}) }}">Settings</a></p>
+                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
+                <p><a href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
+                <p><a href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
+                <p><a href="{{ path('user_following', {slug: user.username}) }}">Following</a></p>
+                <p><a href="{{ path('user_followers', {slug: user.username}) }}">Followers</a></p>
                 {% if is_granted('ROLE_USER_TRAINER') %}
-                    <p><a href="{{ path('add_post', {slug: currentUser.username}) }}">Add post</a></p>
+                    <p><a href="{{ path('add_post', {slug: current_user.username}) }}">Add post</a></p>
                 {% endif %}
             </div>
         </div>
@@ -70,15 +86,20 @@
                         <h3>{{ post.name }}</h3>
                         <p>{{ post.content }}</p>
                         <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
-                        {% if currentUser.username == user.username %}
+                        <p>
+                            <small class="text-muted">{{ post.dateCreation }}</small>
+
+                        {% if current_user.username == user.username %}
                             <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
                         {% else %}
 
-                            {% if currentUser.username != post.author %}
+                            {% if current_user.username != post.author %}
                             <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
                             {% endif %}
 
                         {% endif %}
+                        </p>
+
                     </div>
             {% endfor %}
         </div>

@@ -28,6 +28,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
             ->setParameters([
                 'name' => $slug
             ])
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;

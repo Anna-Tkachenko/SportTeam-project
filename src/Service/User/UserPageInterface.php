@@ -22,4 +22,12 @@ interface UserPageInterface
     public function getPost(string $id);
 
     public function verifyPostAdding(string $username, $datetime);
+
+    public function getFollowers(string $slug);
+
+    public function getFollowing(string $slug);
+
+    public function getFollowStatus(string $currentUsername, string $selectUsername);
+
+    public function getAllUsers();
 }

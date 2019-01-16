@@ -20,17 +20,34 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{slug}", name="user")
      */
-    public function show(UserPageInterface $service, string $slug)
+    public function index(UserPageInterface $service, string $slug)
     {
         $user = $service->getUser($slug);
         $currentUser = $service->getCurrentUser();
         $userPosts = $service->getPosts($slug);
 
+        $followStatus = $service->getFollowStatus($currentUser->getUsername(), $slug);
+
         return $this->render('user/index.html.twig', [
                'user' => $user,
-               'currentUser' => $currentUser,
-                'userPosts' => $userPosts
+               'current_user' => $currentUser,
+                'userPosts' => $userPosts,
+                'follow_status' => $followStatus
            ]);
+    }
+
+    /**
+     * @Route("/user/{slug}/allUsers", name="all_users")
+     */
+    public function showAll(UserPageInterface $service, string $slug)
+    {
+        $currentUser = $service->getCurrentUser();
+        $users = $service->getAllUsers();
+
+        return $this->render('user/showAll.html.twig', [
+            'users' => $users,
+            'current_user' => $currentUser
+        ]);
     }
 
     /**
@@ -51,7 +68,6 @@ class UserController extends AbstractController
             $post->setUser($userEntity);
             $post->setAuthor($currentUser->getUsername());
             $post->setDateCreation($faker->dateTime);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
@@ -60,7 +76,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/settings/addPost.html.twig', [
-            'currentUser' => $currentUser,
+            'current_user' => $currentUser,
             'form' => $form->createView()
         ]);
     }

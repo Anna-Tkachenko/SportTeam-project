@@ -23,7 +23,7 @@ final class Post
         string $name,
         string $content,
         bool $isPublished,
-        $dateCreation,
+        \DateTimeInterface $dateCreation,
         string $author
     )
     {
@@ -57,7 +57,7 @@ final class Post
 
     public function getDateCreation()
     {
-        return $this->dateCreation;
+        return $this->dateCreation->format('d-m-Y H:i:s');
     }
 
     public function getAuthor()

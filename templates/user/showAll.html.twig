@@ -1,0 +1,46 @@
+{% extends 'user/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/follow_page.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
+
+                {% for user in users %}
+                    <div class="container row">
+                        <div class="col-sm-3 user_photo">
+                            {% if user.image is null%}
+                                <img src="/img/default.png" alt="">
+                            {% else %}
+                                <img src="{{ user.image }}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-4 user_info">
+                            <a href="{{ path('user', {slug: user.username }) }}">
+                                <p>{{ user.firstName }} {{ user.lastName }}</p>
+                            </a>
+                            <p>Status:
+                                {% if user.isActive %}
+                                    online
+                                {% else %}
+                                    offline
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="col-sm-3 user_menu">
+                <p><a href="{{ path('app_logout') }}">Logout</a></p>
+                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
+                <p><a href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
+                <p><a href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
+                <p><a href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></p>
+                <p><a href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

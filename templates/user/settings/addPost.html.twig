@@ -5,10 +5,10 @@
             <div class="col-sm-9 user_data">
                 <div class="row">
                     <div class="user_photo">
-                        {% if currentUser.image is null %}
+                        {% if current_user.image is null %}
                             <img src="/img/default.png" alt="">
                         {% else %}
-                            <img src="{{ currentUser.image }}" alt="">
+                            <img src="{{ current_user.image }}" alt="">
                         {% endif %}
                     </div>
                     <div class="user_info">
@@ -18,8 +18,11 @@
             </div>
             <div class="col-sm-3 user_menu">
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
-                <p><a href="{{ path('user', {slug: currentUser.username}) }}">My page</a></p>
-                <p><a href="{{ path('add_post', {slug: currentUser.username}) }}">Add post</a></p>
+                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
+                <p><a href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
+                <p><a href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
+                <p><a href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></p>
+                <p><a href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></p>
             </div>
         </div>
         <div class="row">
