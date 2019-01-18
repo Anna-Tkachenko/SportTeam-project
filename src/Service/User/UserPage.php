@@ -28,6 +28,13 @@ class UserPage implements UserPageInterface
         $this->postRepository = $postRepository;
     }
 
+    public function getCurrentUser()
+    {
+        // returns User object or null if not authenticated
+        $user = $this->security->getUser();
+        return $user;
+    }
+
     public function getUser(string $slug) {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         $dataMapper = new UserMapper();
@@ -41,13 +48,6 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getCurrentUser()
-    {
-        // returns User object or null if not authenticated
-        $user = $this->security->getUser();
-        return $user;
-    }
-
     public function getPosts(string $slug)
     {
         $posts = $this->postRepository->findByUser($slug);
@@ -57,11 +57,6 @@ class UserPage implements UserPageInterface
             $collection->addPost($dataMapper->entityToDto($post));
         }
         return $collection;
-    }
-
-    public function getPost(string $id)
-    {
-        return $this->postRepository->find($id);
     }
 
     public function verifyPostAdding(string $username, $datetime)

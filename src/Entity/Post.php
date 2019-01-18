@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Api\Entity\EntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
-class Post
+class Post implements EntityInterface
 {
     /**
      * @ORM\Id()

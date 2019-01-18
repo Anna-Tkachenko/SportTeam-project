@@ -19,8 +19,6 @@ interface UserPageInterface
 
     public function getPosts(string $slug);
 
-    public function getPost(string $id);
-
     public function verifyPostAdding(string $username, $datetime);
 
     public function getFollowers(string $slug);

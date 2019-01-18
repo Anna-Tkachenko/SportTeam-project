@@ -48,4 +48,19 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
             ->getResult()
             ;
     }
+
+    public function deletePost(int $id)
+    {
+        $post = $this->find($id);
+        $em = $this->getEntityManager();
+        $em->remove($post);
+        $em->flush();
+    }
+
+    public function save(Post $post)
+    {
+        $em = $this->getEntityManager();
+        $em->persist($post);
+        $em->flush();
+    }
 }

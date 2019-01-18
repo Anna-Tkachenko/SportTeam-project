@@ -29,3 +29,13 @@ services:
 
     app.logout.listener:
         class: App\Listener\LogoutListener
+
+    App\Controller\Api\PostController:
+        class: App\Controller\Api\PostController
+        arguments:
+            - '@App\Service\Post\ApiPostService'
+
+    App\Controller\UserController:
+        class: App\Controller\UserController
+        arguments:
+            - '@App\Service\Post\PostService'
