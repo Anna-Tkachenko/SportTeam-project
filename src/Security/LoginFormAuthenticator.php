@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -72,7 +79,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
                 throw new CustomUserMessageAuthenticationException('User could not be found.');
             }
             // fail authentication with a custom error
-
         }
 
         return $user;
@@ -94,7 +100,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-       // For example : return new RedirectResponse($this->router->generate('some_route'));
+        // For example : return new RedirectResponse($this->router->generate('some_route'));
 
         return new RedirectResponse($this->router->generate('user', ['slug' => $token->getUsername()]));
     }

@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/3/19
- * Time: 6:56 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\User;

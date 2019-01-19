@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 19.01.19
- * Time: 11:08
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller\Api;
-
 
 use App\Api\Mapper\ApiMapperInterface;
 use App\Service\User\UserPageInterface;
@@ -16,6 +16,11 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * API endpoint for user resource.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 final class UserController extends AbstractFOSRestController
 {
     private $service;
@@ -41,10 +46,9 @@ final class UserController extends AbstractFOSRestController
      */
     public function getUserr(int $id)
     {
-
         $user = $this->service->findOne($id);
 
-        if(is_null($user)){
+        if (is_null($user)) {
             return $this->view([], Response::HTTP_NOT_FOUND);
         }
 

@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/7/19
- * Time: 8:20 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller;
-
 
 use App\Form\ChangeImageType;
 use App\Service\User\UserPageInterface;
@@ -15,6 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller provides user settings page.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class SettingsController extends AbstractController
 {
     private $userPageService;
@@ -42,5 +47,4 @@ class SettingsController extends AbstractController
             'change_image_form' => $form->createView()
         ]);
     }
-
 }

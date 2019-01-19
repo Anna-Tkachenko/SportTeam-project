@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Service\User\UserPageInterface;
@@ -16,6 +23,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
+/**
+ * Controller provides login, registration pages.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class SecurityController extends AbstractController
 {
     /**
@@ -48,7 +60,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -57,7 +68,7 @@ class SecurityController extends AbstractController
             );
             $user->setIsActive(true);
 
-            if($user->getTrainerAccepted()){
+            if ($user->getTrainerAccepted()) {
                 $user->addRole('ROLE_USER_TRAINER');
             }
 
@@ -75,10 +86,11 @@ class SecurityController extends AbstractController
             );
         }
 
-        return $this->render('security/registration.html.twig',
+        return $this->render(
+            'security/registration.html.twig',
             [
                 'form' => $form->createView(),
-            ]);
+            ]
+        );
     }
-
 }

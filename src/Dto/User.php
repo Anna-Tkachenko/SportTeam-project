@@ -1,14 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/3/19
- * Time: 6:57 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Dto;
 
-
+/**
+ * User DTO.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 final class User
 {
     private $username;
@@ -27,15 +32,14 @@ final class User
         string $firstName,
         string $lastName,
         $image
-    )
-    {
-       $this->username = $username;
-       $this->password = $password;
-       $this->email = $email;
-       $this->isActive = $isActive;
-       $this->firstName = $firstName;
-       $this->lastName = $lastName;
-       $this->image = $image;
+    ) {
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        $this->isActive = $isActive;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->image = $image;
     }
 
     public function getUsername(): string
@@ -65,10 +69,9 @@ final class User
     }
     public function getImage(): ?string
     {
-        if(is_null($this->image)){
+        if (is_null($this->image)) {
             return '/img/default.png';
         }
         return $this->image;
-
     }
 }

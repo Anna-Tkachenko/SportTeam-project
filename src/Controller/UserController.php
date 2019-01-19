@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/3/19
- * Time: 6:31 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller;
@@ -16,6 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller provides user pages.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class UserController extends AbstractController
 {
     private $postService;
@@ -47,6 +53,8 @@ class UserController extends AbstractController
     }
 
     /**
+     * Show all registered users.
+     *
      * @Route("/user/{slug}/allUsers", name="all_users")
      */
     public function showAll(string $slug)
@@ -61,6 +69,8 @@ class UserController extends AbstractController
     }
 
     /**
+     * Show form for adding post.
+     *
      * @Route("/user/{slug}/addPost", name="add_post")
      */
     public function addPost(Request $request, string $slug)
@@ -73,7 +83,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $post->setIsPublished(true);
             $post->setUser($userEntity);
             $post->setAuthor($slug);
@@ -114,14 +123,12 @@ class UserController extends AbstractController
         $currentUser = $this->userPageService->getCurrentUser();
         $sharedPost = $this->postService->getPost($slug);
 
-        if($this->userPageService->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())){
-
+        if ($this->userPageService->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())) {
             $this->postService->sharePost($sharedPost, $currentUser);
             $this->addFlash(
                 'notice',
                 'Post was added!'
             );
-
         } else {
             $this->addFlash(
                 'notice',

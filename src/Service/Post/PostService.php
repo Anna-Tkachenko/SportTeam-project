@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 18.01.19
- * Time: 22:38
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\Post;
-
 
 use App\Api\ApiMapperInterface;
 use App\Entity\Post;
@@ -16,6 +16,11 @@ use App\Exception\NullAttributeException;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 
+/**
+ * Service provides post data from the storage.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class PostService implements PostServiceInterface
 {
     private $postRepository;
@@ -53,7 +58,8 @@ class PostService implements PostServiceInterface
     public function create(array $data)
     {
         $faker = \Faker\Factory::create();
-        if(isset($data['user']) && isset($data['name']) && isset($data['content']) ){} else{
+        if (isset($data['user']) && isset($data['name']) && isset($data['content'])) {
+        } else {
             throw new NullAttributeException();
         }
 
@@ -81,24 +87,24 @@ class PostService implements PostServiceInterface
     {
         $post = $this->postRepository->find($id);
 
-        if(is_null($post)){
+        if (is_null($post)) {
             return $post;
         }
 
-        if(isset($data['name'])){
+        if (isset($data['name'])) {
             $post->setName($data['name']);
         }
-        if(isset($data['content'])){
+        if (isset($data['content'])) {
             $post->setContent($data['content']);
         }
-        if(isset($data['is_published']) && is_bool($data['is_published'])){
+        if (isset($data['is_published']) && is_bool($data['is_published'])) {
             $post->setIsPublished($data['is_published']);
         }
-        if(isset($data['user'])){
+        if (isset($data['user'])) {
             $user = $this->userRepository->findOneBy(['username' => $data['user']]);
             $post->setUser($user);
         }
-        if(isset($data['author'])){
+        if (isset($data['author'])) {
             $post->setAuthor($data['author']);
         }
 

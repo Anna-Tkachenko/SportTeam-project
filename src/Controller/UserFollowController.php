@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/16/19
- * Time: 5:40 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller;
@@ -12,6 +13,12 @@ use App\Service\User\UserPageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller provides user followers and followings pages,
+ * follow, unfollow functions.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class UserFollowController extends AbstractController
 {
     private $userPageService;
@@ -22,6 +29,8 @@ class UserFollowController extends AbstractController
     }
 
     /**
+     * Show all user followings.
+     *
      * @Route("/user/{slug}/following", name="user_following")
      */
     public function showFollowing(string $slug)
@@ -36,6 +45,8 @@ class UserFollowController extends AbstractController
     }
 
     /**
+     * Show all user followers.
+     *
      * @Route("/user/{slug}/followers", name="user_followers")
      */
     public function showFollowers(string $slug)

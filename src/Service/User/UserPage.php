@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tkachenko
- * Date: 1/3/19
- * Time: 3:39 PM
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\User;
@@ -19,6 +20,11 @@ use App\User\UserMapper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Service provides user data from the storage.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class UserPage implements UserPageInterface
 {
     private $userRepository;
@@ -26,11 +32,12 @@ class UserPage implements UserPageInterface
     private $security;
     private $passwordEncoder;
 
-    public function __construct(UserRepositoryInterface $userRepository,
+    public function __construct(
+        UserRepositoryInterface $userRepository,
                                 PostRepositoryInterface $postRepository,
                                 Security $security,
-                                UserPasswordEncoderInterface $passwordEncoder)
-    {
+                                UserPasswordEncoderInterface $passwordEncoder
+    ) {
         $this->userRepository = $userRepository;
         $this->security = $security;
         $this->postRepository = $postRepository;
@@ -44,7 +51,8 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getUser(string $slug) {
+    public function getUser(string $slug)
+    {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         $dataMapper = new UserMapper();
         $currentUser = $dataMapper->entityToDto($user);
@@ -70,7 +78,7 @@ class UserPage implements UserPageInterface
 
     public function verifyPostAdding(string $username, $datetime)
     {
-        if($this->postRepository->verifyPublished($username, $datetime) != []){
+        if ($this->postRepository->verifyPublished($username, $datetime) != []) {
             return false;
         }
 
@@ -95,20 +103,19 @@ class UserPage implements UserPageInterface
         //2 - if currentUser follows on selectUser
         //3 - if currentUser is selectUser
 
-        if($currentUsername == $selectUsername){
+        if ($currentUsername == $selectUsername) {
             return '3';
         }
 
         $following = $this->getFollowing($currentUsername);
 
-        foreach ($following as $user){
-            if($selectUsername == $user->getUsername()){
+        foreach ($following as $user) {
+            if ($selectUsername == $user->getUsername()) {
                 return '2';
             }
         }
 
         return '1';
-
     }
 
     public function getAllUsers()
@@ -118,8 +125,9 @@ class UserPage implements UserPageInterface
 
     public function create(array $data)
     {
-        if(isset($data['username']) && isset($data['first_name']) && isset($data['last_name'])
-            && isset($data['plain_password']) && isset($data['email']) && isset($data['is_active'])){} else{
+        if (isset($data['username']) && isset($data['first_name']) && isset($data['last_name'])
+            && isset($data['plain_password']) && isset($data['email']) && isset($data['is_active'])) {
+        } else {
             throw new NullAttributeException();
         }
 
@@ -146,26 +154,26 @@ class UserPage implements UserPageInterface
     {
         $user = $this->userRepository->find($id);
 
-        if(is_null($user)){
+        if (is_null($user)) {
             return $user;
         }
 
-        if(isset($data['username'])){
+        if (isset($data['username'])) {
             $user->setUsername($data['username']);
         }
-        if(isset($data['first_name'])){
+        if (isset($data['first_name'])) {
             $user->setFirstName($data['first_name']);
         }
-        if(isset($data['last_name'])){
+        if (isset($data['last_name'])) {
             $user->setLastName($data['last_name']);
         }
-        if(isset($data['is_active']) && is_bool($data['is_active'])){
+        if (isset($data['is_active']) && is_bool($data['is_active'])) {
             $user->setIsActive($data['is_active']);
         }
-        if(isset($data['email'])){
+        if (isset($data['email'])) {
             $user->setEmail($data['email']);
         }
-        if(isset($data['password'])){
+        if (isset($data['password'])) {
             $user->setPassword($this->passwordEncoder->encodePassword($data['password']));
         }
 
@@ -178,5 +186,4 @@ class UserPage implements UserPageInterface
     {
         $this->userRepository->delete($id);
     }
-
 }
