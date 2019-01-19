@@ -8,9 +8,14 @@
 
 namespace App\Repository\User;
 
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 interface UserRepositoryInterface extends UserLoaderInterface
 {
+    public function loadUserByUsername($username);
 
+    public function save(User $user);
+
+    public function delete(int $id);
 }

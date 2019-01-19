@@ -28,4 +28,12 @@ interface UserPageInterface
     public function getFollowStatus(string $currentUsername, string $selectUsername);
 
     public function getAllUsers();
+
+    public function create(array $data);
+
+    public function findOne(int $id);
+
+    public function update(int $id, array $data);
+
+    public function deleteUser(int $id);
 }

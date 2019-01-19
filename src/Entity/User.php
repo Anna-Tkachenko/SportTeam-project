@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Api\Entity\EntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\User\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, \Serializable, EntityInterface
 {
     /**
      * @ORM\Id()
