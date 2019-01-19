@@ -34,7 +34,7 @@ class SettingsController extends AbstractController
      */
     public function index(Request $request)
     {
-        $currentUser = $this->userPageService->getCurrentUser();
+        $currentUser = $this->getUser();
         $form = $this->createForm(ChangeImageType::class);
         $form->handleRequest($request);
 

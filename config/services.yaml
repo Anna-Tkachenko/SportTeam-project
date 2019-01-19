@@ -48,11 +48,6 @@ services:
             - '@App\Service\User\ApiUserService'
             - '@App\Api\Mapper\UserApiMapper'
 
-    App\Controller\UserFollowController:
-        class: App\Controller\UserFollowController
-        arguments:
-            - '@App\Service\User\UserPage'
-
     App\Controller\SettingsController:
         class: App\Controller\SettingsController
         arguments:

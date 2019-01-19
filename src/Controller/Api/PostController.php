@@ -48,7 +48,7 @@ final class PostController extends AbstractFOSRestController
     {
         $post = $this->service->findOne($id);
 
-        if (is_null($post)) {
+        if (null === $post) {
             return $this->view([], Response::HTTP_NOT_FOUND);
         }
 

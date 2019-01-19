@@ -85,39 +85,6 @@ class UserPage implements UserPageInterface
         return true;
     }
 
-    public function getFollowers(string $slug)
-    {
-        $user = $this->getUserEntity($slug);
-        return $user->getFollowers();
-    }
-
-    public function getFollowing(string $slug)
-    {
-        $user = $this->getUserEntity($slug);
-        return $user->getFollowing();
-    }
-
-    public function getFollowStatus(string $currentUsername, string $selectUsername)
-    {
-        //1- if currentUser doesn't follow on selectUser
-        //2 - if currentUser follows on selectUser
-        //3 - if currentUser is selectUser
-
-        if ($currentUsername == $selectUsername) {
-            return '3';
-        }
-
-        $following = $this->getFollowing($currentUsername);
-
-        foreach ($following as $user) {
-            if ($selectUsername == $user->getUsername()) {
-                return '2';
-            }
-        }
-
-        return '1';
-    }
-
     public function getAllUsers()
     {
         return $this->userRepository->findAll();
@@ -154,7 +121,7 @@ class UserPage implements UserPageInterface
     {
         $user = $this->userRepository->find($id);
 
-        if (is_null($user)) {
+        if (null === $user) {
             return $user;
         }
 

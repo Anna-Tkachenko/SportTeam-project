@@ -39,7 +39,7 @@ class ApiUserService extends UserPage implements UserPageInterface
     {
         $user =  parent::findOne($id);
 
-        if (is_null($user)) {
+        if (null === $user) {
             return $user;
         }
 
@@ -53,7 +53,7 @@ class ApiUserService extends UserPage implements UserPageInterface
     {
         $user =  parent::update($id, $data['attributes']);
 
-        if (is_null($user)) {
+        if (null === $user) {
             return $user;
         }
 

@@ -48,7 +48,7 @@ final class UserController extends AbstractFOSRestController
     {
         $user = $this->service->findOne($id);
 
-        if (is_null($user)) {
+        if (null === $user) {
             return $this->view([], Response::HTTP_NOT_FOUND);
         }
 

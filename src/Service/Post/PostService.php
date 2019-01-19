@@ -87,7 +87,7 @@ class PostService implements PostServiceInterface
     {
         $post = $this->postRepository->find($id);
 
-        if (is_null($post)) {
+        if (null === $post) {
             return $post;
         }
 

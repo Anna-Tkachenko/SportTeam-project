@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Service\Following\FollowServiceInterface;
 use App\Service\Post\PostServiceInterface;
 use App\Service\User\UserPageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,11 +27,14 @@ class UserController extends AbstractController
 {
     private $postService;
     private $userPageService;
+    private $followSerice;
 
-    public function __construct(PostServiceInterface $postService, UserPageInterface $userPageService)
+    public function __construct(PostServiceInterface $postService, UserPageInterface $userPageService, FollowServiceInterface $followService)
     {
         $this->postService = $postService;
         $this->userPageService = $userPageService;
+        $this->followSerice = $followService;
+
     }
 
     /**
@@ -39,10 +43,10 @@ class UserController extends AbstractController
     public function index(string $slug)
     {
         $user = $this->userPageService->getUser($slug);
-        $currentUser = $this->userPageService->getCurrentUser();
+        $currentUser = $this->getUser();
         $userPosts = $this->userPageService->getPosts($slug);
 
-        $followStatus = $this->userPageService->getFollowStatus($currentUser->getUsername(), $slug);
+        $followStatus = $this->followSerice->getFollowStatus($currentUser->getUsername(), $slug);
 
         return $this->render('user/index.html.twig', [
                'user' => $user,
@@ -59,7 +63,7 @@ class UserController extends AbstractController
      */
     public function showAll(string $slug)
     {
-        $currentUser = $this->userPageService->getCurrentUser();
+        $currentUser = $this->getUser();
         $users =$this->userPageService->getAllUsers();
 
         return $this->render('user/showAll.html.twig', [
@@ -77,7 +81,7 @@ class UserController extends AbstractController
     {
         $faker = \Faker\Factory::create();
         $userEntity = $this->userPageService->getUserEntity($slug);
-        $currentUser = $this->userPageService->getCurrentUser();
+        $currentUser = $this->getUser();
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -105,7 +109,7 @@ class UserController extends AbstractController
     public function deletePost(int $slug)
     {
         $this->postService->deletePost($slug);
-        $username = $this->userPageService->getCurrentUser()->getUsername();
+        $username = $this->getUser()->getUsername();
 
         $this->addFlash(
             'notice',
@@ -120,7 +124,7 @@ class UserController extends AbstractController
      */
     public function sharePost(string $slug)
     {
-        $currentUser = $this->userPageService->getCurrentUser();
+        $currentUser = $this->getUser();
         $sharedPost = $this->postService->getPost($slug);
 
         if ($this->userPageService->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())) {

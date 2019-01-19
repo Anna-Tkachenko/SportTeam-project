@@ -69,9 +69,6 @@ final class User
     }
     public function getImage(): ?string
     {
-        if (is_null($this->image)) {
-            return '/img/default.png';
-        }
-        return $this->image;
+        return $this->image ?? '/img/default.png';
     }
 }

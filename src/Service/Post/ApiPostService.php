@@ -39,7 +39,7 @@ class ApiPostService extends PostService implements PostServiceInterface
     {
         $post =  parent::findOne($id);
 
-        if (is_null($post)) {
+        if (null === $post) {
             return $post;
         }
 
@@ -53,7 +53,7 @@ class ApiPostService extends PostService implements PostServiceInterface
     {
         $post =  parent::update($id, $data['attributes']);
 
-        if (is_null($post)) {
+        if (null === $post) {
             return $post;
         }
 
