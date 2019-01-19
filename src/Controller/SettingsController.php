@@ -17,12 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SettingsController extends AbstractController
 {
+    private $userPageService;
+
+    public function __construct(UserPageInterface $userPageService)
+    {
+        $this->userPageService = $userPageService;
+    }
+
     /**
      * @Route("/user/{slug}/settings", name="settings")
      */
-    public function index(UserPageInterface $service, Request $request)
+    public function index(Request $request)
     {
-        $currentUser = $service->getCurrentUser();
+        $currentUser = $this->userPageService->getCurrentUser();
         $form = $this->createForm(ChangeImageType::class);
         $form->handleRequest($request);
 

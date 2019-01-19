@@ -40,9 +40,20 @@ services:
         class: App\Controller\UserController
         arguments:
             - '@App\Service\Post\PostService'
+            - '@App\Service\User\UserPage'
 
     App\Controller\Api\UserController:
         class: App\Controller\Api\UserController
         arguments:
             - '@App\Service\User\ApiUserService'
             - '@App\Api\Mapper\UserApiMapper'
+
+    App\Controller\UserFollowController:
+        class: App\Controller\UserFollowController
+        arguments:
+            - '@App\Service\User\UserPage'
+
+    App\Controller\SettingsController:
+        class: App\Controller\SettingsController
+        arguments:
+            - '@App\Service\User\UserPage'

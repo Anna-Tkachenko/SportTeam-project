@@ -28,7 +28,7 @@
 
 .post_item {
     border: 1px solid rgba(0,0,0,.075);
-    margin-top: 30px;
+    margin: 15px 0;
 }
 
 body {
@@ -51,4 +51,12 @@ body {
 
 .flash-notice {
     padding-top: 30px;
+}
+
+.user_item {
+    margin: 15px 0;
+}
+
+.alert-link {
+    color: black;
 }

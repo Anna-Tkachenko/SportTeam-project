@@ -33,14 +33,9 @@
                 {% endfor %}
 
             </div>
-            <div class="col-sm-3 user_menu">
-                <p><a href="{{ path('app_logout') }}">Logout</a></p>
-                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
-                <p><a href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
-                <p><a href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
-                <p><a href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></p>
-                <p><a href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></p>
-            </div>
+            {% block user_menu %}
+                {{ parent() }}
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

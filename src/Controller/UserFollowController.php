@@ -14,13 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserFollowController extends AbstractController
 {
+    private $userPageService;
+
+    public function __construct(UserPageInterface $userPageService)
+    {
+        $this->userPageService = $userPageService;
+    }
+
     /**
      * @Route("/user/{slug}/following", name="user_following")
      */
-    public function showFollowing(string $slug, UserPageInterface $service)
+    public function showFollowing(string $slug)
     {
-        $following = $service->getFollowing($slug);
-        $currentUser = $service->getCurrentUser();
+        $following = $this->userPageService->getFollowing($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
 
         return $this->render('user/follow/showFollowing.html.twig', [
             'following' => $following,
@@ -31,10 +38,10 @@ class UserFollowController extends AbstractController
     /**
      * @Route("/user/{slug}/followers", name="user_followers")
      */
-    public function showFollowers(string $slug, UserPageInterface $service)
+    public function showFollowers(string $slug)
     {
-        $followers = $service->getFollowers($slug);
-        $currentUser = $service->getCurrentUser();
+        $followers = $this->userPageService->getFollowers($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
 
         return $this->render('user/follow/showFollowers.html.twig', [
             'followers' => $followers,
@@ -45,10 +52,10 @@ class UserFollowController extends AbstractController
     /**
      * @Route("/user/follow/{slug}", name="follow")
      */
-    public function follow(string $slug, UserPageInterface $service)
+    public function follow(string $slug)
     {
-        $user = $service->getUserEntity($slug);
-        $currentUser = $service->getCurrentUser();
+        $user = $this->userPageService->getUserEntity($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
 
         $currentUser->addFollowing($user);
         $user->addFollower($currentUser);
@@ -65,10 +72,10 @@ class UserFollowController extends AbstractController
     /**
      * @Route("/user/unfollow/{slug}", name="unfollow")
      */
-    public function unfollow(string $slug, UserPageInterface $service)
+    public function unfollow(string $slug)
     {
-        $user = $service->getUserEntity($slug);
-        $currentUser = $service->getCurrentUser();
+        $user = $this->userPageService->getUserEntity($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
 
         $currentUser->removeFollowing($user);
         $user->removeFollower($currentUser);

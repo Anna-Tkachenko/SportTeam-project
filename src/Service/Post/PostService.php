@@ -106,4 +106,9 @@ class PostService implements PostServiceInterface
 
         return $post;
     }
+
+    public function getPost(string $slug)
+    {
+        return $this->postRepository->find($slug);
+    }
 }

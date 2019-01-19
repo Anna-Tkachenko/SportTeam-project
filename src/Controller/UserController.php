@@ -19,22 +19,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     private $postService;
+    private $userPageService;
 
-    public function __construct(PostServiceInterface $postService)
+    public function __construct(PostServiceInterface $postService, UserPageInterface $userPageService)
     {
         $this->postService = $postService;
+        $this->userPageService = $userPageService;
     }
 
     /**
      * @Route("/user/{slug}", name="user")
      */
-    public function index(UserPageInterface $service, string $slug)
+    public function index(string $slug)
     {
-        $user = $service->getUser($slug);
-        $currentUser = $service->getCurrentUser();
-        $userPosts = $service->getPosts($slug);
+        $user = $this->userPageService->getUser($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
+        $userPosts = $this->userPageService->getPosts($slug);
 
-        $followStatus = $service->getFollowStatus($currentUser->getUsername(), $slug);
+        $followStatus = $this->userPageService->getFollowStatus($currentUser->getUsername(), $slug);
 
         return $this->render('user/index.html.twig', [
                'user' => $user,
@@ -47,10 +49,10 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{slug}/allUsers", name="all_users")
      */
-    public function showAll(UserPageInterface $service, string $slug)
+    public function showAll(string $slug)
     {
-        $currentUser = $service->getCurrentUser();
-        $users = $service->getAllUsers();
+        $currentUser = $this->userPageService->getCurrentUser();
+        $users =$this->userPageService->getAllUsers();
 
         return $this->render('user/showAll.html.twig', [
             'users' => $users,
@@ -61,11 +63,11 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{slug}/addPost", name="add_post")
      */
-    public function addPost(Request $request, string $slug, UserPageInterface $service)
+    public function addPost(Request $request, string $slug)
     {
         $faker = \Faker\Factory::create();
-        $userEntity = $service->getUserEntity($slug);
-        $currentUser = $service->getCurrentUser();
+        $userEntity = $this->userPageService->getUserEntity($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -91,10 +93,10 @@ class UserController extends AbstractController
     /**
      * @Route("/user/deletePost/{slug}", name="delete_post")
      */
-    public function deletePost(int $slug, UserPageInterface $service)
+    public function deletePost(int $slug)
     {
         $this->postService->deletePost($slug);
-        $username = $service->getCurrentUser()->getUsername();
+        $username = $this->userPageService->getCurrentUser()->getUsername();
 
         $this->addFlash(
             'notice',
@@ -107,12 +109,12 @@ class UserController extends AbstractController
     /**
      * @Route("/user/sharePost/{slug}", name="share_post")
      */
-    public function sharePost(string $slug, UserPageInterface $service)
+    public function sharePost(string $slug)
     {
-        $currentUser = $service->getCurrentUser();
-        $sharedPost = $service->getPost($slug);
+        $currentUser = $this->userPageService->getCurrentUser();
+        $sharedPost = $this->postService->getPost($slug);
 
-        if($service->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())){
+        if($this->userPageService->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())){
 
             $this->postService->sharePost($sharedPost, $currentUser);
             $this->addFlash(

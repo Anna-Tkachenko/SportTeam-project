@@ -29,10 +29,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3 user_menu">
-                <p><a href="{{ path('app_logout') }}">Logout</a></p>
-                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
-            </div>
+            {% block user_menu %}
+                {{ parent() }}
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

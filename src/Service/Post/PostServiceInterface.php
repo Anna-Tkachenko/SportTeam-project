@@ -25,4 +25,6 @@ interface PostServiceInterface
     public function findOne(int $id);
 
     public function update(int $id, array $data);
+
+    public function getPost(string $slug);
 }

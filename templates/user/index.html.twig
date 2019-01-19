@@ -29,8 +29,8 @@
                         <img src="{{ user.image }}" alt="">
                     </div>
                     <div class="user_info">
-                        <p>{{ user.firstName }} {{ user.lastName }}</p>
-                        <p>Status:
+                        <p><b>Name: </b>{{ user.firstName }} {{ user.lastName }}</p>
+                        <p><b>Status: </b>
                             {% if user.isActive %}
                                 online
                             {% else %}
@@ -38,7 +38,7 @@
                             {% endif %}
                         </p>
                         <p>
-                            Role:
+                            <b>Role: </b>
                             {% if is_granted('ROLE_USER_TRAINER') %}
                                 trainer
                             {% else %}
@@ -55,23 +55,25 @@
                                 <a href="{{ path('unfollow', {slug: user.username}) }}">Unfollow</a>
                             </p>
                         {% else %}
-                                <p>My page</p>
+
                         {% endif %}
 
                     </div>
                 </div>
             </div>
+            {% block user_menu %}
             <div class="col-sm-3 user_menu">
-                <p><a href="{{ path('app_logout') }}">Logout</a></p>
-                <p><a href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
-                <p><a href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
-                <p><a href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
-                <p><a href="{{ path('user_following', {slug: user.username}) }}">Following</a></p>
-                <p><a href="{{ path('user_followers', {slug: user.username}) }}">Followers</a></p>
+                <p><a class="alert-link" href="{{ path('app_logout') }}">Logout</a></p>
+                <p><a class="alert-link" href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
+                <p><a class="alert-link" href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
+                <p><a class="alert-link" href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
+                <p><a class="alert-link" href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></p>
+                <p><a class="alert-link" href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></p>
                 {% if is_granted('ROLE_USER_TRAINER') %}
-                    <p><a href="{{ path('add_post', {slug: current_user.username}) }}">Add post</a></p>
+                    <p><a class="alert-link" href="{{ path('add_post', {slug: current_user.username}) }}">Add post</a></p>
                 {% endif %}
             </div>
+            {% endblock %}
         </div>
     </div>
         <div class="container">
@@ -80,13 +82,14 @@
                     {{ message }}
                 </div>
             {% endfor %}
-
             {% for post in userPosts %}
-                    <div class="col-sm-5 post_item">
-                        <h3>{{ post.name }}</h3>
-                        <p>{{ post.content }}</p>
-                        <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
-                        <p>
+                    <div class="col-sm-8 post_item card">
+                        <h5 class="card-title">{{ post.name }}</h5>
+                        <p class="card-text">{{ post.content }}</p>
+                        <p class="card-text">
+                            <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
+                        </p>
+                        <p class="card-text">
                             <small class="text-muted">{{ post.dateCreation }}</small>
 
                         {% if current_user.username == user.username %}
@@ -99,7 +102,7 @@
 
                         {% endif %}
                         </p>
-
+                        <img class="card-img-bottom" src="" alt="">
                     </div>
             {% endfor %}
         </div>

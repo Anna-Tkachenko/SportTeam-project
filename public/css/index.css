@@ -28,6 +28,12 @@ html {
 
 body {
     margin-top: 180px; /* Margin bottom by footer height */
+    margin-bottom: 40px;
+}
+
+
+.main_description {
+    margin: auto;
 }
 
 textarea {
@@ -45,6 +51,45 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+    margin-bottom: 4rem;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+.carousel-inner {
+    vertical-align: middle;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+    height: 32rem;
+}
+
+.carousel-image {
+    min-width: 100%;
+    vertical-align: middle;
+}
+
+
+/* Featurettes
+------------------------- */
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+
 
 @media (max-width: 600px) {
     #logo_first_name {
