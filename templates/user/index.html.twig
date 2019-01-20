@@ -46,13 +46,13 @@
                             {% endif %}
                         </p>
 
-                        {% if follow_status == '1' %}
-                            <p>
-                                <a href="{{ path('follow', {slug: user.username}) }}">Follow</a>
-                            </p>
-                        {% elseif follow_status == '2' %}
+                        {% if user.isFollowing() %}
                             <p>
                                 <a href="{{ path('unfollow', {slug: user.username}) }}">Unfollow</a>
+                            </p>
+                        {% elseif user.isNotFollowing() %}
+                            <p>
+                                <a href="{{ path('follow', {slug: user.username}) }}">Follow</a>
                             </p>
                         {% else %}
 
@@ -96,8 +96,10 @@
                             <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
                         {% else %}
 
-                            {% if current_user.username != post.author %}
-                            <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
+                            {% if current_user.isPostAuthor(post.author) %}
+
+                            {% else %}
+                                <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
                             {% endif %}
 
                         {% endif %}

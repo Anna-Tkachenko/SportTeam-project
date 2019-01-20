@@ -9,6 +9,8 @@
 
 namespace App\Dto;
 
+use App\Service\User\UserPage;
+
 /**
  * User DTO.
  *
@@ -23,6 +25,7 @@ final class User
     private $firstName;
     private $lastName;
     private $image;
+    private $followStatus;
 
     public function __construct(
         string $username,
@@ -70,5 +73,51 @@ final class User
     public function getImage(): ?string
     {
         return $this->image ?? '/img/default.png';
+    }
+
+    public function setFollowStatus(int $status)
+    {
+        $this->followStatus = $status;
+    }
+
+    public function getFollowStatus()
+    {
+        return $this->followStatus;
+    }
+
+    public function isFollowing()
+    {
+        if($this->followStatus == UserPage::IS_FOLLOW) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isNotFollowing()
+    {
+        if($this->followStatus == UserPage::IS_NOT_FOLLOW) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isSame()
+    {
+        if($this->followStatus == UserPage::IS_THE_SAME) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isPostAuthor(string $username)
+    {
+        if($username == $this->getUsername()){
+            return true;
+        }
+
+        return false;
     }
 }

@@ -19,8 +19,6 @@ interface FollowServiceInterface
 
     public function saveUser($user);
 
-    public function getFollowStatus(string $currentUsername, string $selectUsername);
-
     public function follow($currentUser, $user);
 
     public function unFollow($currentUser, $user);

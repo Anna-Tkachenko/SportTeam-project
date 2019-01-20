@@ -16,6 +16,7 @@ use App\Post\PostMapper;
 use App\Post\PostsCollection;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
+use App\Service\Following\FollowServiceInterface;
 use App\User\UserMapper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -31,17 +32,24 @@ class UserPage implements UserPageInterface
     private $postRepository;
     private $security;
     private $passwordEncoder;
+    private $followService;
+
+    public const IS_NOT_FOLLOW = 1;
+    public const IS_FOLLOW = 2;
+    public const IS_THE_SAME = 3;
 
     public function __construct(
         UserRepositoryInterface $userRepository,
                                 PostRepositoryInterface $postRepository,
                                 Security $security,
-                                UserPasswordEncoderInterface $passwordEncoder
+                                UserPasswordEncoderInterface $passwordEncoder,
+                                FollowServiceInterface $followService
     ) {
         $this->userRepository = $userRepository;
         $this->security = $security;
         $this->postRepository = $postRepository;
         $this->passwordEncoder = $passwordEncoder;
+        $this->followService = $followService;
     }
 
     public function getCurrentUser()
@@ -51,12 +59,15 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getUser(string $slug)
+    public function getUser($currentUser, string $slug)
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         $dataMapper = new UserMapper();
-        $currentUser = $dataMapper->entityToDto($user);
-        return $currentUser;
+        $user = $dataMapper->entityToDto($user);
+        $followStatus = $this->getFollowStatus($currentUser->getUsername(), $slug);
+        $user->setFollowStatus($followStatus);
+
+        return $user;
     }
 
     public function getUserEntity(string $slug)
@@ -152,5 +163,22 @@ class UserPage implements UserPageInterface
     public function deleteUser(int $id)
     {
         $this->userRepository->delete($id);
+    }
+
+    private function getFollowStatus(string $currentUsername, string $selectUsername)
+    {
+        if ($currentUsername == $selectUsername) {
+            return self::IS_THE_SAME;
+        }
+
+        $following = $this->followService->getFollowing($currentUsername);
+
+        foreach ($following as $user) {
+            if ($selectUsername == $user->getUsername()) {
+                return self::IS_FOLLOW;
+            }
+        }
+
+        return self::IS_NOT_FOLLOW;
     }
 }

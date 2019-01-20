@@ -333,4 +333,13 @@ class User implements UserInterface, \Serializable, EntityInterface
 
         return $this;
     }
+
+    public function isPostAuthor(string $username)
+    {
+        if($username == $this->getUsername()){
+            return true;
+        }
+
+        return false;
+    }
 }

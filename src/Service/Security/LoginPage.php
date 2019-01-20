@@ -26,12 +26,8 @@ class LoginPage implements LoginPageInterface
         $user = $this->userRepository->findOneBy(['username' => $username]);
         if (null === $user) {
             return false;
-        } else {
-            if ($passwordEncoder->isPasswordValid($user, $password)) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        return $passwordEncoder->isPasswordValid($user, $password);
     }
 }

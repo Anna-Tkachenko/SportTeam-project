@@ -42,17 +42,15 @@ class UserController extends AbstractController
      */
     public function index(string $slug)
     {
-        $user = $this->userPageService->getUser($slug);
         $currentUser = $this->getUser();
-        $userPosts = $this->userPageService->getPosts($slug);
+        $user = $this->userPageService->getUser($currentUser, $slug);
 
-        $followStatus = $this->followSerice->getFollowStatus($currentUser->getUsername(), $slug);
+        $userPosts = $this->userPageService->getPosts($slug);
 
         return $this->render('user/index.html.twig', [
                'user' => $user,
                'current_user' => $currentUser,
-                'userPosts' => $userPosts,
-                'follow_status' => $followStatus
+                'userPosts' => $userPosts
            ]);
     }
 
