@@ -30,4 +30,6 @@ interface PostServiceInterface
     public function update(int $id, array $data);
 
     public function getPost(string $slug);
+
+    public function getPosts(string $slug);
 }

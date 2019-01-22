@@ -17,7 +17,6 @@ use App\Post\PostsCollection;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\Following\FollowServiceInterface;
-use App\Service\PostSharing\PostSharingServiceInterface;
 use App\User\UserMapper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -71,28 +70,6 @@ class UserPage implements UserPageInterface
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         return $user;
-    }
-
-    public function getPosts(string $slug)
-    {
-        $posts = $this->postRepository->findByUser($slug);
-        $user = $this->userRepository->findOneBy(['username' => $slug]);
-
-        $sharings = $user->getPostSharings();
-
-        foreach($sharings as $sharing)
-        {
-            $post = $sharing->getPost();
-            $postName = $post->getName();
-            $posts[] = $post;
-        }
-
-        $collection = new PostsCollection();
-        $dataMapper = new PostMapper();
-        foreach ($posts as $post) {
-            $collection->addPost($dataMapper->entityToDto($post));
-        }
-        return $collection;
     }
 
     public function getAllUsers()

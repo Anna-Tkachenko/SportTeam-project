@@ -9,9 +9,9 @@
 
 namespace App\Service\Post;
 
-use App\Api\ApiMapperInterface;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Post\PostMapper;
+use App\Post\PostsCollection;
 use App\Exception\NullAttributeException;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
@@ -44,28 +44,36 @@ class PostService implements PostServiceInterface
         $this->postRepository->save($post);
     }
 
-    public function create(array $data)
-    {
-        if (isset($data['user']) && isset($data['name']) && isset($data['content'])) {
-        } else {
-            throw new NullAttributeException();
-        }
-
-        $user = $this->userRepository->findOneBy(['username' => $data['user']]);
-
-        $post = new Post($user, $data['user']);
-        $post->setName($data['name']);
-        $post->setContent($data['content']);
-        $post->setDateCreation(new \DateTime());
-
-        $this->postRepository->save($post);
-
-        return $post;
-    }
-
     public function findOne(int $id)
     {
         return $this->postRepository->find($id);
+    }
+
+    public function getPost(string $slug)
+    {
+        return $this->postRepository->find($slug);
+    }
+
+    public function getPosts(string $slug)
+    {
+        $posts = $this->postRepository->findByUser($slug);
+        $user = $this->userRepository->findOneBy(['username' => $slug]);
+
+        $sharings = $user->getPostSharings();
+
+        foreach($sharings as $sharing)
+        {
+            $post = $sharing->getPost();
+            $postName = $post->getName();
+            $posts[] = $post;
+        }
+
+        $collection = new PostsCollection();
+        $dataMapper = new PostMapper();
+        foreach ($posts as $post) {
+            $collection->addPost($dataMapper->entityToDto($post));
+        }
+        return $collection;
     }
 
     public function update(int $id, array $data)
@@ -98,8 +106,22 @@ class PostService implements PostServiceInterface
         return $post;
     }
 
-    public function getPost(string $slug)
+    public function create(array $data)
     {
-        return $this->postRepository->find($slug);
+        if (isset($data['user']) && isset($data['name']) && isset($data['content'])) {
+        } else {
+            throw new NullAttributeException();
+        }
+
+        $user = $this->userRepository->findOneBy(['username' => $data['user']]);
+
+        $post = new Post($user, $data['user']);
+        $post->setName($data['name']);
+        $post->setContent($data['content']);
+        $post->setDateCreation(new \DateTime());
+
+        $this->postRepository->save($post);
+
+        return $post;
     }
 }

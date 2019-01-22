@@ -22,8 +22,6 @@ interface UserPageInterface
 
     public function getUserEntity(string $slug);
 
-    public function getPosts(string $slug);
-
     public function getAllUsers();
 
     public function create(array $data);

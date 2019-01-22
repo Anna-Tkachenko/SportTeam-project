@@ -52,3 +52,9 @@ services:
         class: App\Controller\SettingsController
         arguments:
             - '@App\Service\User\UserPage'
+
+    App\Controller\PostController:
+        class: App\Controller\PostController
+        arguments:
+            - '@App\Service\User\UserPage'
+            - '@App\Service\Post\PostService'
