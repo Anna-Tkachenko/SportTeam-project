@@ -10,6 +10,8 @@
 namespace App\Entity;
 
 use App\Api\Entity\EntityInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post implements EntityInterface
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -54,6 +57,19 @@ class Post implements EntityInterface
      * @ORM\Column(type="string", length=255)
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostSharing", mappedBy="post")
+     */
+    private $postSharings;
+
+    public function __construct(User $user, string $author, bool $isPublished = true)
+    {
+        $this->user = $user;
+        $this->author = $author;
+        $this->isPublished = $isPublished;
+        $this->postSharings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,6 +144,37 @@ class Post implements EntityInterface
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostSharing[]
+     */
+    public function getPostSharings(): Collection
+    {
+        return $this->postSharings;
+    }
+
+    public function addPostSharing(PostSharing $postSharing): self
+    {
+        if (!$this->postSharings->contains($postSharing)) {
+            $this->postSharings[] = $postSharing;
+            $postSharing->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostSharing(PostSharing $postSharing): self
+    {
+        if ($this->postSharings->contains($postSharing)) {
+            $this->postSharings->removeElement($postSharing);
+            // set the owning side to null (unless already changed)
+            if ($postSharing->getPost() === $this) {
+                $postSharing->setPost(null);
+            }
+        }
 
         return $this;
     }

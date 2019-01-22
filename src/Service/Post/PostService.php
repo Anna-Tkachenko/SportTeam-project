@@ -34,19 +34,8 @@ class PostService implements PostServiceInterface
 
     public function deletePost(int $id): void
     {
-        $this->postRepository->deletePost($id);
-    }
-
-    public function sharePost(Post $sharedPost, User $user)
-    {
-        $post = new Post();
-        $post->setName($sharedPost->getName());
-        $post->setContent($sharedPost->getContent());
-        $post->setIsPublished(true);
-        $post->setUser($user);
-        $post->setAuthor($sharedPost->getAuthor());
-        $post->setDateCreation($sharedPost->getDateCreation());
-
+        $post = $this->postRepository->find($id);
+        $post->setIsPublished(false);
         $this->postRepository->save($post);
     }
 
@@ -57,7 +46,6 @@ class PostService implements PostServiceInterface
 
     public function create(array $data)
     {
-        $faker = \Faker\Factory::create();
         if (isset($data['user']) && isset($data['name']) && isset($data['content'])) {
         } else {
             throw new NullAttributeException();
@@ -65,13 +53,10 @@ class PostService implements PostServiceInterface
 
         $user = $this->userRepository->findOneBy(['username' => $data['user']]);
 
-        $post = new Post();
+        $post = new Post($user, $data['user']);
         $post->setName($data['name']);
         $post->setContent($data['content']);
-        $post->setIsPublished(true);
-        $post->setUser($user);
-        $post->setAuthor($data['user']);
-        $post->setDateCreation($faker->dateTime);
+        $post->setDateCreation(new \DateTime());
 
         $this->postRepository->save($post);
 

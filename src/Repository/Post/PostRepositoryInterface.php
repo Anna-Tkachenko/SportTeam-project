@@ -15,8 +15,6 @@ interface PostRepositoryInterface
 {
     public function findByUser(string $slug);
 
-    public function verifyPublished(string $username, $dateCreation);
-
     public function deletePost(int $id);
 
     public function save(Post $post);

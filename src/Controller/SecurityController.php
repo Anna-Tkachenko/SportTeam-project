@@ -9,7 +9,7 @@
 
 namespace App\Controller;
 
-use App\Service\User\UserPageInterface;
+use App\Repository\User\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Security\LoginFormAuthenticator;
@@ -30,6 +30,13 @@ use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
  */
 class SecurityController extends AbstractController
 {
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -72,9 +79,7 @@ class SecurityController extends AbstractController
                 $user->addRole('ROLE_USER_TRAINER');
             }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->userRepository->save($user);
 
             //return $this->redirectToRoute('user', array('slug' => $user->getUsername()));
 

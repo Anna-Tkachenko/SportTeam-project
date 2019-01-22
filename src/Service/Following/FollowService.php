@@ -49,8 +49,6 @@ class FollowService implements FollowServiceInterface
         return $user->getFollowers();
     }
 
-
-
     public function saveUser($user)
     {
         $this->userRepository->save($user);

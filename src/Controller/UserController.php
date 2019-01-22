@@ -11,8 +11,8 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
-use App\Service\Following\FollowServiceInterface;
 use App\Service\Post\PostServiceInterface;
+use App\Service\PostSharing\PostSharingServiceInterface;
 use App\Service\User\UserPageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,14 +27,15 @@ class UserController extends AbstractController
 {
     private $postService;
     private $userPageService;
-    private $followSerice;
+    private $postSharingService;
 
-    public function __construct(PostServiceInterface $postService, UserPageInterface $userPageService, FollowServiceInterface $followService)
+    public function __construct(PostServiceInterface $postService,
+                                UserPageInterface $userPageService,
+                                PostSharingServiceInterface $postSharingService)
     {
         $this->postService = $postService;
         $this->userPageService = $userPageService;
-        $this->followSerice = $followService;
-
+        $this->postSharingService = $postSharingService;
     }
 
     /**
@@ -77,21 +78,16 @@ class UserController extends AbstractController
      */
     public function addPost(Request $request, string $slug)
     {
-        $faker = \Faker\Factory::create();
         $userEntity = $this->userPageService->getUserEntity($slug);
         $currentUser = $this->getUser();
-        $post = new Post();
+        $post = new Post($userEntity, $slug);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setIsPublished(true);
-            $post->setUser($userEntity);
-            $post->setAuthor($slug);
-            $post->setDateCreation($faker->dateTime);
 
+            $post->setDateCreation(new \DateTime());
             $this->postService->savePost($post);
-
             return $this->redirectToRoute('user', array('slug' => $slug));
         }
 
@@ -106,8 +102,16 @@ class UserController extends AbstractController
      */
     public function deletePost(int $slug)
     {
-        $this->postService->deletePost($slug);
-        $username = $this->getUser()->getUsername();
+        $currentUser = $this->getUser();
+        $post = $this->postService->findOne($slug);
+
+        if($this->postSharingService->verifyPostSharingAbsent($currentUser, $post)){
+            $this->postService->deletePost($slug);
+        } else {
+            $this->postSharingService->deletePostSharing($currentUser, $post);
+        }
+
+        $username = $currentUser->getUsername();
 
         $this->addFlash(
             'notice',
@@ -125,8 +129,10 @@ class UserController extends AbstractController
         $currentUser = $this->getUser();
         $sharedPost = $this->postService->getPost($slug);
 
-        if ($this->userPageService->verifyPostAdding($currentUser->getUsername(), $sharedPost->getDateCreation())) {
-            $this->postService->sharePost($sharedPost, $currentUser);
+        if ($this->postSharingService->verifyPostSharingAbsent($currentUser, $sharedPost)) {
+
+            $this->postSharingService->share($currentUser, $sharedPost);
+
             $this->addFlash(
                 'notice',
                 'Post was added!'

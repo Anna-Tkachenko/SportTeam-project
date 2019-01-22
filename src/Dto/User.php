@@ -9,7 +9,6 @@
 
 namespace App\Dto;
 
-use App\Service\User\UserPage;
 
 /**
  * User DTO.
@@ -26,6 +25,10 @@ final class User
     private $lastName;
     private $image;
     private $followStatus;
+
+    public const IS_NOT_FOLLOW = 1;
+    public const IS_FOLLOW = 2;
+    public const IS_THE_SAME = 3;
 
     public function __construct(
         string $username,
@@ -87,7 +90,7 @@ final class User
 
     public function isFollowing()
     {
-        if($this->followStatus == UserPage::IS_FOLLOW) {
+        if($this->followStatus == self::IS_FOLLOW) {
             return true;
         }
 
@@ -96,7 +99,7 @@ final class User
 
     public function isNotFollowing()
     {
-        if($this->followStatus == UserPage::IS_NOT_FOLLOW) {
+        if($this->followStatus == self::IS_NOT_FOLLOW) {
             return true;
         }
 
@@ -105,7 +108,7 @@ final class User
 
     public function isSame()
     {
-        if($this->followStatus == UserPage::IS_THE_SAME) {
+        if($this->followStatus == self::IS_THE_SAME) {
             return true;
         }
 

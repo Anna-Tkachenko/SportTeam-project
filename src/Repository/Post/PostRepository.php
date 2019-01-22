@@ -41,21 +41,6 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
             ;
     }
 
-    public function verifyPublished(string $username, $dateCreation)
-    {
-        return $this->createQueryBuilder('p')
-            ->innerJoin('p.user', 'u')
-            ->andWhere('u.username = :name')
-            ->andWhere('p.dateCreation = :dateCreation')
-            ->setParameters([
-                'name' => $username,
-                'dateCreation' => $dateCreation
-            ])
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
     public function deletePost(int $id)
     {
         $post = $this->find($id);

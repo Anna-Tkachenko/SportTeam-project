@@ -24,8 +24,6 @@ interface UserPageInterface
 
     public function getPosts(string $slug);
 
-    public function verifyPostAdding(string $username, $datetime);
-
     public function getAllUsers();
 
     public function create(array $data);

@@ -92,11 +92,17 @@ class User implements UserInterface, \Serializable, EntityInterface
      */
     private $following;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostSharing", mappedBy="user")
+     */
+    private $postSharings;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
+        $this->postSharings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,4 +348,36 @@ class User implements UserInterface, \Serializable, EntityInterface
 
         return false;
     }
+
+    /**
+     * @return Collection|PostSharing[]
+     */
+    public function getPostSharings(): Collection
+    {
+        return $this->postSharings;
+    }
+
+    public function addPostSharing(PostSharing $postSharing): self
+    {
+        if (!$this->postSharings->contains($postSharing)) {
+            $this->postSharings[] = $postSharing;
+            $postSharing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostSharing(PostSharing $postSharing): self
+    {
+        if ($this->postSharings->contains($postSharing)) {
+            $this->postSharings->removeElement($postSharing);
+            // set the owning side to null (unless already changed)
+            if ($postSharing->getUser() === $this) {
+                $postSharing->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
