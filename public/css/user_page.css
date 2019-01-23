@@ -8,6 +8,11 @@
     margin-top: 30px;
 }
 
+.user_menu ul li {
+    list-style-type: none;
+    margin-top: 5px;
+}
+
 .user_photo {
     width: 30%;
     box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
@@ -42,12 +47,16 @@ body {
     width: 25px;
 }
 
-.fa-trash-alt, .fa-share {
+.fa-trash-alt, .fa-share, .fa-edit {
     float: right;
     color: black;
 }
 
-.fa-trash-alt:hover, .fa-share:hover {
+.fa-edit {
+    margin-left: 5px;
+}
+
+.fa-trash-alt:hover, .fa-share:hover, .fa-edit:hover {
     color: gray;
 }
 

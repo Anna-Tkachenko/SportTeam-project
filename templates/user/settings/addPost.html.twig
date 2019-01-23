@@ -8,7 +8,7 @@
                         {% if current_user.image is null %}
                             <img src="/img/default.png" alt="">
                         {% else %}
-                            <img src="{{ current_user.image }}" alt="">
+                            <img src="/uploads/{{ current_user.image }}" alt="">
                         {% endif %}
                     </div>
                     <div class="user_info">
@@ -47,7 +47,11 @@
                     {{ form_widget(form.content, {'attr': {'class': 'form-control', 'cols': 30, 'rows': 5}}) }}
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-light">Add post</button>
+                    <label for="username">Image</label>
+                    {{ form_widget(form.image) }}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-light">Save post</button>
                 </div>
                 {{ form_end(form) }}
             </div>

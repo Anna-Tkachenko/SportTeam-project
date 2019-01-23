@@ -10,7 +10,9 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Dto\PostType as PostModel;
 use App\Service\Post\PostServiceInterface;
+use App\Service\PostManagement\PostManagementServiceInterface;
 use App\Service\PostSharing\PostSharingServiceInterface;
 use App\Service\User\UserPageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,37 +25,48 @@ class PostController extends AbstractController
     private $userPageService;
     private $postService;
     private $postSharingService;
+    private $postManagementService;
 
     public function __construct(
         UserPageInterface $userPageService,
         PostServiceInterface $postService,
-        PostSharingServiceInterface $postSharingService
+        PostSharingServiceInterface $postSharingService,
+        PostManagementServiceInterface $postManagementService
     )
     {
         $this->userPageService = $userPageService;
         $this->postService = $postService;
         $this->postSharingService = $postSharingService;
+        $this->postManagementService = $postManagementService;
     }
 
     /**
-     * Show form for adding post.
+     * Show form for adding/editing post.
      *
-     * @IsGranted("ROLE_TRAINER")
+     * @IsGranted("ROLE_USER_TRAINER")
      *
-     * @Route("/user/{slug}/addPost", name="add_post")
+     * @Route("/user/{slug}/post/{postId}/{option}", name="add_post")
      */
-    public function addPost(Request $request, string $slug)
+    public function addPost(Request $request, string $slug, int $postId, string $option)
     {
-        $userEntity = $this->userPageService->getUserEntity($slug);
+        if($option == 'add') {
+            $userEntity = $this->userPageService->getUserEntity($slug);
+            $post = new Post($userEntity, $slug);
+            $postType = new PostModel();
+        } elseif ($option == 'edit') {
+            $post = $this->postService->findOne($postId);
+            $postType = $this->postManagementService->getData($post);
+        }
+
         $currentUser = $this->getUser();
-        $post = new Post($userEntity, $slug);
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $postType);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $post->setDateCreation(new \DateTime());
-            $this->postService->savePost($post);
+            $projectDir = $this->getParameter('kernel.project_dir');
+            $post = $this->postManagementService->setData($post, $postType, $projectDir);
+
             return $this->redirectToRoute('user', array('slug' => $slug));
         }
 

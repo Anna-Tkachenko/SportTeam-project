@@ -72,11 +72,10 @@ footer {
 /* Declare heights because of positioning of img element */
 .carousel-item {
     height: 32rem;
-    padding: 10px;
 }
 
 .carousel-image {
-    min-width: 100%;
+    max-width: 100%;
     vertical-align: middle;
 }
 

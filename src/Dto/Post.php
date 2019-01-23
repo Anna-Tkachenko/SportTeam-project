@@ -22,6 +22,7 @@ final class Post
     private $isPublished;
     private $dateCreation;
     private $author;
+    private $image;
 
     public function __construct(
         $id,
@@ -29,7 +30,8 @@ final class Post
         string $content,
         bool $isPublished,
         \DateTimeInterface $dateCreation,
-        string $author
+        string $author,
+        $image
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -37,6 +39,7 @@ final class Post
         $this->isPublished = $isPublished;
         $this->dateCreation = $dateCreation;
         $this->author = $author;
+        $this->image = $image;
     }
 
     public function getId(): string
@@ -67,5 +70,10 @@ final class Post
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 }

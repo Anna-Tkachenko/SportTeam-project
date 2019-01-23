@@ -30,7 +30,8 @@ class PostMapper
             $entity->getContent(),
             $entity->getIsPublished(),
             $entity->getDateCreation(),
-            $entity->getAuthor()
+            $entity->getAuthor(),
+            $entity->getImage()
         );
     }
 }
