@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    app.uploads_dir: '%kernel.project_dir%/public/uploads/'
 
 services:
     # default configuration for services in *this* file
@@ -48,8 +49,8 @@ services:
             - '@App\Service\User\ApiUserService'
             - '@App\Api\Mapper\UserApiMapper'
 
-    App\Controller\SettingsController:
-        class: App\Controller\SettingsController
+    App\Service\Settings\SettingsService:
+        class: App\Service\Settings\SettingsService
         arguments:
             - '@App\Service\User\UserPage'
 
@@ -58,3 +59,8 @@ services:
         arguments:
             - '@App\Service\User\UserPage'
             - '@App\Service\Post\PostService'
+
+    App\Service\FileSystem\FileManager:
+        arguments:
+            - '@App\Service\FileSystem\FileName'
+            - '%app.uploads_dir%'

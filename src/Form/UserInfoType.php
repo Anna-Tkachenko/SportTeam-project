@@ -9,24 +9,38 @@
 
 namespace App\Form;
 
+use App\Dto\UserInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Provides form for changing user image.
  *
  * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
  */
-class ChangeImageType extends AbstractType
+class UserInfoType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('image', FileType::class)
+        $builder->add('firstName', TextType::class)
+            ->add('lastName',TextType::class)
+            ->add('image', FileType::class, [
+                'required' => false,
+
+            ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => UserInfo::class
+        ]);
     }
 }

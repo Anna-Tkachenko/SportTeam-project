@@ -40,8 +40,7 @@ class UserFixtures extends Fixture
                 ->setLastName($faker->lastName)
                 ->setPassword($this->passwordEncoder->encodePassword($user, $faker->password))
                 ->setEmail($faker->email)
-                ->setIsActive($faker->boolean(50))
-                ->setImage($faker->imageUrl());
+                ->setIsActive($faker->boolean(50));
 
             $manager->persist($user);
         }

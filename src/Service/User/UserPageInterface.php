@@ -9,6 +9,8 @@
 
 namespace App\Service\User;
 
+use App\Entity\User;
+
 /**
  * Contract for user service.
  *
@@ -31,4 +33,6 @@ interface UserPageInterface
     public function update(int $id, array $data);
 
     public function deleteUser(int $id);
+
+    public function save(User $user);
 }

@@ -75,7 +75,7 @@ final class User
     }
     public function getImage(): ?string
     {
-        return $this->image ?? '/img/default.png';
+        return $this->image;
     }
 
     public function setFollowStatus(int $status)

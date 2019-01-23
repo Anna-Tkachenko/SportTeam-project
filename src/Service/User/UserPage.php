@@ -157,4 +157,9 @@ class UserPage implements UserPageInterface
 
         return DtoUser::IS_NOT_FOLLOW;
     }
+
+    public function save(User $user)
+    {
+        $this->userRepository->save($user);
+    }
 }

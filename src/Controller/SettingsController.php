@@ -9,8 +9,10 @@
 
 namespace App\Controller;
 
-use App\Form\ChangeImageType;
-use App\Service\User\UserPageInterface;
+use App\Dto\ChangePassword;
+use App\Form\ChangePasswordType;
+use App\Form\UserInfoType;
+use App\Service\Settings\SettingsServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,29 +24,62 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SettingsController extends AbstractController
 {
-    private $userPageService;
+    private $settingsService;
 
-    public function __construct(UserPageInterface $userPageService)
+    public function __construct(
+        SettingsServiceInterface $settingsService
+    )
     {
-        $this->userPageService = $userPageService;
+        $this->settingsService = $settingsService;
     }
 
     /**
-     * @Route("/user/{slug}/settings", name="settings")
+     * @Route("/user/{slug}/settings/change_profile", name="change_profile")
      */
     public function index(Request $request)
     {
         $currentUser = $this->getUser();
-        $form = $this->createForm(ChangeImageType::class);
+        $userInfo = $this->settingsService->getData($currentUser);
+
+        $form = $this->createForm(UserInfoType::class, $userInfo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            #TODO: change user image
+
+            $projectDir = $this->getParameter('kernel.project_dir');
+            $currentUser = $this->settingsService->setData($currentUser, $userInfo, $projectDir);
+
+            return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
         }
 
         return $this->render('user/settings/index.html.twig', [
             'current_user' => $currentUser,
-            'change_image_form' => $form->createView()
+            'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/user/{slug}/settings/change_password", name="change_password")
+     */
+    public function changePassword(Request $request)
+    {
+        $currentUser = $this->getUser();
+
+        $changePassword = new ChangePassword();
+        $form = $this->createForm(ChangePasswordType::class, $changePassword);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $currentUser = $this->settingsService->changePassword($currentUser, $changePassword->getNewPassword());
+
+            return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
+        }
+
+        return $this->render('user/settings/changePassword.html.twig', [
+            'current_user' => $currentUser,
+            'form' => $form->createView()
+        ]);
+
     }
 }

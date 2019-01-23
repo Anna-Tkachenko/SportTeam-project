@@ -12,7 +12,22 @@
                         {% endif %}
                     </div>
                     <div class="user_info">
-                        <p><a href="#">Info</a></p>
+                        <p><b>Name: </b>{{ current_user.firstName }} {{ current_user.lastName }}</p>
+                        <p><b>Status: </b>
+                            {% if current_user.isActive %}
+                                online
+                            {% else %}
+                                offline
+                            {% endif %}
+                        </p>
+                        <p>
+                            <b>Role: </b>
+                            {% if is_granted('ROLE_USER_TRAINER') %}
+                                trainer
+                            {% else %}
+                                simple user
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -32,7 +47,7 @@
                     {{ form_widget(form.content, {'attr': {'class': 'form-control', 'cols': 30, 'rows': 5}}) }}
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Add post</button>
+                    <button type="submit" class="btn btn-light">Add post</button>
                 </div>
                 {{ form_end(form) }}
             </div>

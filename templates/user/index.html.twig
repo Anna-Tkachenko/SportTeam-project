@@ -25,8 +25,13 @@
         <div class="row">
             <div class="col-sm-9 user_data">
                 <div class="row">
+
                     <div class="user_photo">
-                        <img src="{{ user.image }}" alt="">
+                        {% if user.image is null %}
+                            <img src="/img/default.png" alt="">
+                        {% else %}
+                            <img src="/uploads/{{ user.image }}" alt="">
+                        {% endif %}
                     </div>
                     <div class="user_info">
                         <p><b>Name: </b>{{ user.firstName }} {{ user.lastName }}</p>
@@ -35,14 +40,6 @@
                                 online
                             {% else %}
                                 offline
-                            {% endif %}
-                        </p>
-                        <p>
-                            <b>Role: </b>
-                            {% if is_granted('ROLE_USER_TRAINER') %}
-                                trainer
-                            {% else %}
-                                simple user
                             {% endif %}
                         </p>
 
@@ -63,10 +60,18 @@
             </div>
             {% block user_menu %}
             <div class="col-sm-3 user_menu">
+                <p>
+                    Role:
+                    {% if is_granted('ROLE_USER_TRAINER') %}
+                        trainer
+                    {% else %}
+                        simple user
+                    {% endif %}
+                </p>
                 <p><a class="alert-link" href="{{ path('app_logout') }}">Logout</a></p>
                 <p><a class="alert-link" href="{{ path('user', {slug: current_user.username}) }}">My page</a></p>
                 <p><a class="alert-link" href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></p>
-                <p><a class="alert-link" href="{{ path('settings', {slug: current_user.username}) }}">Settings</a></p>
+                <p><a class="alert-link" href="{{ path('change_profile', {slug: current_user.username}) }}">Settings</a></p>
                 <p><a class="alert-link" href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></p>
                 <p><a class="alert-link" href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></p>
                 {% if is_granted('ROLE_USER_TRAINER') %}
@@ -83,29 +88,29 @@
                 </div>
             {% endfor %}
             {% for post in userPosts %}
-                    <div class="col-sm-8 post_item card">
+                <div class="row">
+                    <div class="col-sm-6 post_item posts_form container">
                         <h5 class="card-title">{{ post.name }}</h5>
                         <p class="card-text">{{ post.content }}</p>
                         <p class="card-text">
-                            <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
-                        </p>
-                        <p class="card-text">
+                            <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small><br>
                             <small class="text-muted">{{ post.dateCreation }}</small>
 
-                        {% if current_user.username == user.username %}
-                            <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
-                        {% else %}
-
-                            {% if current_user.isPostAuthor(post.author) %}
-
+                            {% if current_user.username == user.username %}
+                                <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
                             {% else %}
-                                <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
-                            {% endif %}
 
-                        {% endif %}
+                                {% if current_user.isPostAuthor(post.author) %}
+
+                                {% else %}
+                                    <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
+                                {% endif %}
+
+                            {% endif %}
                         </p>
                         <img class="card-img-bottom" src="" alt="">
                     </div>
+                </div>
             {% endfor %}
         </div>
 {% endblock %}

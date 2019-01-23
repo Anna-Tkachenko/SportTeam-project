@@ -13,6 +13,7 @@ use App\Form\PostType;
 use App\Service\Post\PostServiceInterface;
 use App\Service\PostSharing\PostSharingServiceInterface;
 use App\Service\User\UserPageInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,6 +37,8 @@ class PostController extends AbstractController
 
     /**
      * Show form for adding post.
+     *
+     * @IsGranted("ROLE_TRAINER")
      *
      * @Route("/user/{slug}/addPost", name="add_post")
      */
