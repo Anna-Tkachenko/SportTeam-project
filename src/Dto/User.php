@@ -9,7 +9,6 @@
 
 namespace App\Dto;
 
-
 /**
  * User DTO.
  *
@@ -25,6 +24,7 @@ final class User
     private $lastName;
     private $image;
     private $followStatus;
+    private $isTrainer;
 
     public const IS_NOT_FOLLOW = 1;
     public const IS_FOLLOW = 2;
@@ -37,7 +37,8 @@ final class User
         bool $isActive,
         string $firstName,
         string $lastName,
-        $image
+        $image,
+        bool $isTrainer
     ) {
         $this->username = $username;
         $this->password = $password;
@@ -46,6 +47,7 @@ final class User
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->image = $image;
+        $this->isTrainer = $isTrainer;
     }
 
     public function getUsername(): string
@@ -83,14 +85,14 @@ final class User
         $this->followStatus = $status;
     }
 
-    public function getFollowStatus()
+    public function getFollowStatus(): ?int
     {
         return $this->followStatus;
     }
 
     public function isFollowing()
     {
-        if($this->followStatus == self::IS_FOLLOW) {
+        if ($this->followStatus == self::IS_FOLLOW) {
             return true;
         }
 
@@ -99,7 +101,7 @@ final class User
 
     public function isNotFollowing()
     {
-        if($this->followStatus == self::IS_NOT_FOLLOW) {
+        if ($this->followStatus == self::IS_NOT_FOLLOW) {
             return true;
         }
 
@@ -108,19 +110,24 @@ final class User
 
     public function isSame()
     {
-        if($this->followStatus == self::IS_THE_SAME) {
+        if ($this->followStatus == self::IS_THE_SAME) {
             return true;
         }
 
         return false;
     }
 
-    public function isPostAuthor(string $username)
+    public function isPostAuthor(string $username): bool
     {
-        if($username == $this->getUsername()){
+        if ($username == $this->getUsername()) {
             return true;
         }
 
         return false;
+    }
+
+    public function isTrainer(): bool
+    {
+        return $this->isTrainer;
     }
 }

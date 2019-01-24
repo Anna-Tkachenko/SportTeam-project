@@ -29,7 +29,10 @@ class PostType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'required' => false,
+
+            ])
             ->add('image', FileType::class, [
                 'required' => false,
 

@@ -38,14 +38,14 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             ->getResult();
     }
 
-    public function save(User $user)
+    public function save(User $user): void
     {
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $user = $this->find($id);
         $em = $this->getEntityManager();

@@ -30,7 +30,8 @@ class UserMapper
             $entity->getIsActive(),
             $entity->getFirstName(),
             $entity->getLastName(),
-            $entity->getImage()
+            $entity->getImage(),
+            $entity->getIsTrainer()
         );
     }
 }

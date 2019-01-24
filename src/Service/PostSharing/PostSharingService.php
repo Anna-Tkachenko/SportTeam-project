@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 22.01.19
- * Time: 15:58
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\PostSharing;
-
 
 use App\Entity\Post;
 use App\Entity\PostSharing;
@@ -26,8 +26,7 @@ class PostSharingService implements PostSharingServiceInterface
         UserRepositoryInterface $userRepository,
         PostRepositoryInterface $postRepository,
         PostSharingRepositoryInterface $postSharingRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
         $this->postSharingRepository = $postSharingRepository;
@@ -54,7 +53,7 @@ class PostSharingService implements PostSharingServiceInterface
     {
         $sharing = $this->postSharingRepository->verifyShared($user, $post);
 
-        if($sharing != []) {
+        if ($sharing != []) {
             $this->postSharingRepository->delete($sharing);
         }
     }

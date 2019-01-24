@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 23.01.19
- * Time: 14:58
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\Settings;
-
 
 use App\Dto\UserInfo;
 use App\Entity\User;
@@ -25,8 +25,7 @@ class SettingsService implements SettingsServiceInterface
         UserPageInterface $userPageService,
         FileManagerInterface $fileManager,
         UserPasswordEncoderInterface $passwordEncoder
-    )
-    {
+    ) {
         $this->userPageService = $userPageService;
         $this->fileManager = $fileManager;
         $this->passwordEncoder = $passwordEncoder;
@@ -46,8 +45,8 @@ class SettingsService implements SettingsServiceInterface
         $user->setFirstName($userInfo->getFirstName());
         $user->setLastName($userInfo->getLastName());
 
-        if ( null != $userInfo->getImage()) {
-            if( $user->getImage() != null) {
+        if (null != $userInfo->getImage()) {
+            if ($user->getImage() != null) {
                 $oldFilePath = $projectDir.'/public/uploads/'.$user->getImage();
                 unlink($oldFilePath);
             }

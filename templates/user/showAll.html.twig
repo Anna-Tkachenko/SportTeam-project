@@ -28,6 +28,14 @@
                                     offline
                                 {% endif %}
                             </p>
+                            <p>
+                                Role:
+                                {% if user.isTrainer %}
+                                    trainer
+                                {% else %}
+                                    simple user
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
                 {% endfor %}

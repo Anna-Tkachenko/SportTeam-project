@@ -43,6 +43,14 @@
                             {% endif %}
                         </p>
 
+                        <p><b>Role: </b>
+                            {% if user.isTrainer %}
+                                trainer
+                            {% else %}
+                                simple user
+                            {% endif %}
+                        </p>
+
                         {% if user.isFollowing() %}
                             <p>
                                 <a href="{{ path('unfollow', {slug: user.username}) }}">Unfollow</a>
@@ -55,21 +63,21 @@
 
                         {% endif %}
 
+                        <p>
+                            {% if current_user.username == user.username %}
+
+                            {% else %}
+                                <a class="alert-link" href="{{ path('user_following', {slug: user.username}) }}">Following</a> <br>
+                                <a class="alert-link" href="{{ path('user_followers', {slug: user.username}) }}">Followers</a>
+                            {% endif %}
+                        </p>
+
                     </div>
                 </div>
             </div>
             {% block user_menu %}
             <div class="col-sm-3 user_menu">
                 <ul>
-
-                    <li>
-                        Role:
-                        {% if is_granted('ROLE_USER_TRAINER') %}
-                            trainer
-                        {% else %}
-                            simple user
-                        {% endif %}
-                    </li>
                     <li><a class="alert-link" href="{{ path('app_logout') }}">Logout</a></li>
                     <li><a class="alert-link" href="{{ path('user', {slug: current_user.username}) }}">My page</a></li>
                     <li><a class="alert-link" href="{{ path('all_users', {slug: current_user.username}) }}">All users</a></li>

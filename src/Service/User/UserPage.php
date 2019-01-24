@@ -66,7 +66,7 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getUserEntity(string $slug)
+    public function getUserEntity(string $slug): User
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         return $user;
@@ -136,7 +136,7 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function deleteUser(int $id)
+    public function deleteUser(int $id): void
     {
         $this->userRepository->delete($id);
     }
@@ -158,7 +158,7 @@ class UserPage implements UserPageInterface
         return DtoUser::IS_NOT_FOLLOW;
     }
 
-    public function save(User $user)
+    public function save(User $user): void
     {
         $this->userRepository->save($user);
     }

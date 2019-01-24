@@ -10,17 +10,18 @@
 
 .user_menu ul li {
     list-style-type: none;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 
 .user_photo {
-    width: 30%;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    width: 35%;
+    text-align: center;
+    display:block;
 }
 
 .user_photo img {
-    width: 100%;
-    vertical-align: middle;
+    height: auto;
+    max-width:100% !important;
 }
 
 .user_info {

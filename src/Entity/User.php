@@ -97,6 +97,11 @@ class User implements UserInterface, \Serializable, EntityInterface
      */
     private $postSharings;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isTrainer;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -342,7 +347,7 @@ class User implements UserInterface, \Serializable, EntityInterface
 
     public function isPostAuthor(string $username)
     {
-        if($username == $this->getUsername()){
+        if ($username == $this->getUsername()) {
             return true;
         }
 
@@ -380,4 +385,15 @@ class User implements UserInterface, \Serializable, EntityInterface
         return $this;
     }
 
+    public function getIsTrainer(): ?bool
+    {
+        return $this->isTrainer;
+    }
+
+    public function setIsTrainer(bool $isTrainer): self
+    {
+        $this->isTrainer = $isTrainer;
+
+        return $this;
+    }
 }

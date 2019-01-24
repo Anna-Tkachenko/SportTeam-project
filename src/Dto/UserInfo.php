@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 22.01.19
- * Time: 21:16
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Dto;
-
 
 class UserInfo
 {
@@ -15,7 +15,7 @@ class UserInfo
     private $lastName;
     private $image;
 
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -25,7 +25,7 @@ class UserInfo
         $this->firstName = $firstName;
     }
 
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -44,5 +44,4 @@ class UserInfo
     {
         $this->image = $image;
     }
-
 }

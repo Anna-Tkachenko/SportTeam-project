@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 19.01.19
- * Time: 23:09
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\Following;
-
 
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\Following\FollowServiceInterface;
@@ -29,7 +29,7 @@ class FollowService implements FollowServiceInterface
         $this->saveUser($currentUser);
     }
 
-    public function unFollow($currentUser, $user)
+    public function unFollow($currentUser, $user): void
     {
         $currentUser->removeFollowing($user);
         $user->removeFollower($currentUser);
@@ -49,7 +49,7 @@ class FollowService implements FollowServiceInterface
         return $user->getFollowers();
     }
 
-    public function saveUser($user)
+    public function saveUser($user): void
     {
         $this->userRepository->save($user);
     }
@@ -58,5 +58,4 @@ class FollowService implements FollowServiceInterface
     {
         return $this->userRepository->findOneBy(['username' => $slug]);
     }
-
 }

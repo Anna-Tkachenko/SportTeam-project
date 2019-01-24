@@ -41,7 +41,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
             ;
     }
 
-    public function deletePost(int $id)
+    public function deletePost(int $id): void
     {
         $post = $this->find($id);
         $em = $this->getEntityManager();
@@ -49,7 +49,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         $em->flush();
     }
 
-    public function save(Post $post)
+    public function save(Post $post): void
     {
         $em = $this->getEntityManager();
         $em->persist($post);

@@ -11,6 +11,7 @@ namespace App\Service\Post;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Post\PostsCollection;
 
 /**
  * Contract for post service.
@@ -21,7 +22,7 @@ interface PostServiceInterface
 {
     public function deletePost(int $id): void;
 
-    public function savePost(Post $post);
+    public function savePost(Post $post): void;
 
     public function create(array $data);
 
@@ -31,5 +32,5 @@ interface PostServiceInterface
 
     public function getPost(string $slug);
 
-    public function getPosts(string $slug);
+    public function getPosts(string $slug): PostsCollection;
 }

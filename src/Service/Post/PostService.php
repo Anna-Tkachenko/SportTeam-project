@@ -39,7 +39,7 @@ class PostService implements PostServiceInterface
         $this->postRepository->save($post);
     }
 
-    public function savePost(Post $post)
+    public function savePost(Post $post): void
     {
         $this->postRepository->save($post);
     }
@@ -54,18 +54,17 @@ class PostService implements PostServiceInterface
         return $this->postRepository->find($slug);
     }
 
-    public function getPosts(string $slug)
+    public function getPosts(string $slug): PostsCollection
     {
         $posts = $this->postRepository->findByUser($slug);
         $user = $this->userRepository->findOneBy(['username' => $slug]);
 
         $sharings = $user->getPostSharings();
 
-        foreach($sharings as $sharing)
-        {
+        foreach ($sharings as $sharing) {
             $post = $sharing->getPost();
             $postName = $post->getName();
-            $posts[] = $post;
+            array_unshift($posts, $post);
         }
 
         $collection = new PostsCollection();

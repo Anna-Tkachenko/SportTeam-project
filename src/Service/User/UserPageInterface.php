@@ -22,7 +22,7 @@ interface UserPageInterface
 
     public function getUser($currentUser, string $slug);
 
-    public function getUserEntity(string $slug);
+    public function getUserEntity(string $slug): User;
 
     public function getAllUsers();
 
@@ -32,7 +32,7 @@ interface UserPageInterface
 
     public function update(int $id, array $data);
 
-    public function deleteUser(int $id);
+    public function deleteUser(int $id): void;
 
-    public function save(User $user);
+    public function save(User $user): void;
 }

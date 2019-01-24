@@ -12,7 +12,6 @@ namespace App\Post;
 use App\Entity\Post;
 use App\Dto\Post as PostDto;
 
-
 class PostMapper
 {
     /**

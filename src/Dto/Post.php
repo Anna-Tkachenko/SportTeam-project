@@ -27,7 +27,7 @@ final class Post
     public function __construct(
         $id,
         string $name,
-        string $content,
+        $content,
         bool $isPublished,
         \DateTimeInterface $dateCreation,
         string $author,
@@ -52,7 +52,7 @@ final class Post
         return $this->name;
     }
 
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }

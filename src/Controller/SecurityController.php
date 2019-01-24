@@ -77,6 +77,9 @@ class SecurityController extends AbstractController
 
             if ($user->getTrainerAccepted()) {
                 $user->addRole('ROLE_USER_TRAINER');
+                $user->setIsTrainer(true);
+            } else {
+                $user->setIsTrainer(false);
             }
 
             $this->userRepository->save($user);

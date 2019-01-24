@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 23.01.19
- * Time: 20:30
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Service\PostManagement;
-
 
 use App\Dto\PostType;
 use App\Entity\Post;
@@ -22,8 +22,7 @@ class PostManagementService implements PostManagementServiceInterface
     public function __construct(
         PostRepositoryInterface $postRepository,
         FileManagerInterface $fileManager
-    )
-    {
+    ) {
         $this->postRepository = $postRepository;
         $this->fileManager = $fileManager;
     }
@@ -33,12 +32,12 @@ class PostManagementService implements PostManagementServiceInterface
     {
         $post->setName($postType->getName());
         $post->setContent($postType->getContent());
-        if($post->getDateCreation() === null) {
+        if ($post->getDateCreation() === null) {
             $post->setDateCreation(new \DateTime());
         }
 
-        if ( null != $postType->getImage()) {
-            if( $post->getImage() != null) {
+        if (null != $postType->getImage()) {
+            if ($post->getImage() != null) {
                 $oldFilePath = $projectDir.'/public/uploads/'.$post->getImage();
                 unlink($oldFilePath);
             }

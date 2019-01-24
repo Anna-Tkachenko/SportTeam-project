@@ -16,7 +16,7 @@ interface UserRepositoryInterface extends UserLoaderInterface
 {
     public function loadUserByUsername($username);
 
-    public function save(User $user);
+    public function save(User $user): void;
 
-    public function delete(int $id);
+    public function delete(int $id): void;
 }

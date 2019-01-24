@@ -28,8 +28,7 @@ class SettingsController extends AbstractController
 
     public function __construct(
         SettingsServiceInterface $settingsService
-    )
-    {
+    ) {
         $this->settingsService = $settingsService;
     }
 
@@ -45,7 +44,6 @@ class SettingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $projectDir = $this->getParameter('kernel.project_dir');
             $currentUser = $this->settingsService->setData($currentUser, $userInfo, $projectDir);
 
@@ -70,7 +68,6 @@ class SettingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $currentUser = $this->settingsService->changePassword($currentUser, $changePassword->getNewPassword());
 
             return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
@@ -80,6 +77,5 @@ class SettingsController extends AbstractController
             'current_user' => $currentUser,
             'form' => $form->createView()
         ]);
-
     }
 }

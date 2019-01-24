@@ -26,10 +26,11 @@ class UserController extends AbstractController
     private $userPageService;
     private $postSharingService;
 
-    public function __construct(PostServiceInterface $postService,
+    public function __construct(
+        PostServiceInterface $postService,
                                 UserPageInterface $userPageService,
-                                PostSharingServiceInterface $postSharingService)
-    {
+                                PostSharingServiceInterface $postSharingService
+    ) {
         $this->postService = $postService;
         $this->userPageService = $userPageService;
         $this->postSharingService = $postSharingService;
@@ -77,7 +78,6 @@ class UserController extends AbstractController
         $sharedPost = $this->postService->getPost($slug);
 
         if ($this->postSharingService->verifyPostSharingAbsent($currentUser, $sharedPost)) {
-
             $this->postSharingService->share($currentUser, $sharedPost);
 
             $this->addFlash(

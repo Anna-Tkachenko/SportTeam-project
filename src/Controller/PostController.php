@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 21.01.19
- * Time: 16:02
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller;
@@ -32,8 +33,7 @@ class PostController extends AbstractController
         PostServiceInterface $postService,
         PostSharingServiceInterface $postSharingService,
         PostManagementServiceInterface $postManagementService
-    )
-    {
+    ) {
         $this->userPageService = $userPageService;
         $this->postService = $postService;
         $this->postSharingService = $postSharingService;
@@ -49,7 +49,7 @@ class PostController extends AbstractController
      */
     public function addPost(Request $request, string $slug, int $postId, string $option)
     {
-        if($option == 'add') {
+        if ($option == 'add') {
             $userEntity = $this->userPageService->getUserEntity($slug);
             $post = new Post($userEntity, $slug);
             $postType = new PostModel();
@@ -63,7 +63,6 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $projectDir = $this->getParameter('kernel.project_dir');
             $post = $this->postManagementService->setData($post, $postType, $projectDir);
 
@@ -84,7 +83,7 @@ class PostController extends AbstractController
         $currentUser = $this->getUser();
         $post = $this->postService->findOne($slug);
 
-        if($this->postSharingService->verifyPostSharingAbsent($currentUser, $post)){
+        if ($this->postSharingService->verifyPostSharingAbsent($currentUser, $post)) {
             $this->postService->deletePost($slug);
         } else {
             $this->postSharingService->deletePostSharing($currentUser, $post);
