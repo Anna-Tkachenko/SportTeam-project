@@ -46,8 +46,8 @@ class SettingsService implements SettingsServiceInterface
         $user->setLastName($userInfo->getLastName());
 
         if (null != $userInfo->getImage()) {
-            if ($user->getImage() != null) {
-                $oldFilePath = $projectDir.'/public/uploads/'.$user->getImage();
+            if (null != $user->getImage()) {
+                $oldFilePath = $projectDir . '/public/uploads/' . $user->getImage();
                 unlink($oldFilePath);
             }
             $fileName = $this->fileManager->upload($userInfo->getImage());

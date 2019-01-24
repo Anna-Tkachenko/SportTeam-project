@@ -9,7 +9,6 @@
 
 namespace App\Service\Post;
 
-use App\Api\Mapper\ApiMapperInterface;
 use App\Api\Document\DocumentBuilder;
 use App\Api\Mapper\PostApiMapper;
 use App\Exception\NullAttributeException;

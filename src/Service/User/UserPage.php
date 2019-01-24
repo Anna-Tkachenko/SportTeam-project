@@ -12,8 +12,6 @@ namespace App\Service\User;
 use App\Dto\User as DtoUser;
 use App\Entity\User;
 use App\Exception\NullAttributeException;
-use App\Post\PostMapper;
-use App\Post\PostsCollection;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\Following\FollowServiceInterface;
@@ -52,6 +50,7 @@ class UserPage implements UserPageInterface
     {
         // returns User object or null if not authenticated
         $user = $this->security->getUser();
+
         return $user;
     }
 
@@ -69,6 +68,7 @@ class UserPage implements UserPageInterface
     public function getUserEntity(string $slug): User
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
+
         return $user;
     }
 
@@ -115,18 +115,23 @@ class UserPage implements UserPageInterface
         if (isset($data['username'])) {
             $user->setUsername($data['username']);
         }
+
         if (isset($data['first_name'])) {
             $user->setFirstName($data['first_name']);
         }
+
         if (isset($data['last_name'])) {
             $user->setLastName($data['last_name']);
         }
+
         if (isset($data['is_active']) && is_bool($data['is_active'])) {
             $user->setIsActive($data['is_active']);
         }
+
         if (isset($data['email'])) {
             $user->setEmail($data['email']);
         }
+
         if (isset($data['password'])) {
             $user->setPassword($this->passwordEncoder->encodePassword($data['password']));
         }

@@ -38,6 +38,7 @@ final class PostController extends AbstractFOSRestController
     public function postPost(Request $request)
     {
         $post = $this->service->create($request->request->get('data'));
+
         return $this->view($post, Response::HTTP_CREATED);
     }
 
@@ -61,6 +62,7 @@ final class PostController extends AbstractFOSRestController
     public function patchPost(int $id, Request $request)
     {
         $post = $this->service->update($id, $request->request->get('data'));
+
         return $this->view($post, Response::HTTP_OK);
     }
 
@@ -70,6 +72,7 @@ final class PostController extends AbstractFOSRestController
     public function deletePost(int $id)
     {
         $this->service->deletePost($id);
+
         return $this->view([], Response::HTTP_NO_CONTENT);
     }
 }

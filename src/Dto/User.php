@@ -92,7 +92,7 @@ final class User
 
     public function isFollowing()
     {
-        if ($this->followStatus == self::IS_FOLLOW) {
+        if (self::IS_FOLLOW == $this->followStatus) {
             return true;
         }
 
@@ -101,7 +101,7 @@ final class User
 
     public function isNotFollowing()
     {
-        if ($this->followStatus == self::IS_NOT_FOLLOW) {
+        if (self::IS_NOT_FOLLOW == $this->followStatus) {
             return true;
         }
 
@@ -110,7 +110,7 @@ final class User
 
     public function isSame()
     {
-        if ($this->followStatus == self::IS_THE_SAME) {
+        if (self::IS_THE_SAME == $this->followStatus) {
             return true;
         }
 

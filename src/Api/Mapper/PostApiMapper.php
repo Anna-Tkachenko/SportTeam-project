@@ -24,7 +24,7 @@ final class PostApiMapper implements ApiMapperInterface
             'content' => $post->getContent(),
             'is_published' => $post->getIsPublished(),
             'date_creation' => $post->getDateCreation(),
-            'author' => $post->getAuthor()
+            'author' => $post->getAuthor(),
         ];
     }
 }

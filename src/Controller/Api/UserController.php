@@ -38,6 +38,7 @@ final class UserController extends AbstractFOSRestController
     public function postUser(Request $request)
     {
         $user = $this->service->create($request->request->get('data'));
+
         return $this->view($user, Response::HTTP_CREATED);
     }
 
@@ -61,6 +62,7 @@ final class UserController extends AbstractFOSRestController
     public function patchUser(int $id, Request $request)
     {
         $user = $this->service->update($id, $request->request->get('data'));
+
         return $this->view($user, Response::HTTP_OK);
     }
 
@@ -70,6 +72,7 @@ final class UserController extends AbstractFOSRestController
     public function deleteUser(int $id)
     {
         $this->service->deleteUser($id);
+
         return $this->view([], Response::HTTP_NO_CONTENT);
     }
 }

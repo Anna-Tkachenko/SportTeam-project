@@ -26,6 +26,7 @@ class FileManager implements FileManagerInterface
     {
         $newFileName = $this->fileName->getName($file->getClientOriginalName());
         $file->move($this->uploadDir, $newFileName);
+
         return $newFileName;
     }
 }

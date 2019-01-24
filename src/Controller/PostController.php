@@ -49,11 +49,11 @@ class PostController extends AbstractController
      */
     public function addPost(Request $request, string $slug, int $postId, string $option)
     {
-        if ($option == 'add') {
+        if ('add' == $option) {
             $userEntity = $this->userPageService->getUserEntity($slug);
             $post = new Post($userEntity, $slug);
             $postType = new PostModel();
-        } elseif ($option == 'edit') {
+        } elseif ('edit' == $option) {
             $post = $this->postService->findOne($postId);
             $postType = $this->postManagementService->getData($post);
         }
@@ -66,12 +66,12 @@ class PostController extends AbstractController
             $projectDir = $this->getParameter('kernel.project_dir');
             $post = $this->postManagementService->setData($post, $postType, $projectDir);
 
-            return $this->redirectToRoute('user', array('slug' => $slug));
+            return $this->redirectToRoute('user', ['slug' => $slug]);
         }
 
         return $this->render('user/settings/addPost.html.twig', [
             'current_user' => $currentUser,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

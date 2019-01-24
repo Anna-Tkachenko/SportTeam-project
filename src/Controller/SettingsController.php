@@ -52,7 +52,7 @@ class SettingsController extends AbstractController
 
         return $this->render('user/settings/index.html.twig', [
             'current_user' => $currentUser,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -75,7 +75,7 @@ class SettingsController extends AbstractController
 
         return $this->render('user/settings/changePassword.html.twig', [
             'current_user' => $currentUser,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

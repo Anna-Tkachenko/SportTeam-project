@@ -25,7 +25,7 @@ final class UserApiMapper implements ApiMapperInterface
             'last_name' => $user->getLastName(),
             'password' => $user->getPassword(),
             'email' => $user->getEmail(),
-            'is_active' => $user->getIsActive()
+            'is_active' => $user->getIsActive(),
         ];
     }
 }

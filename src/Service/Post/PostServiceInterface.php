@@ -10,7 +10,6 @@
 namespace App\Service\Post;
 
 use App\Entity\Post;
-use App\Entity\User;
 use App\Post\PostsCollection;
 
 /**

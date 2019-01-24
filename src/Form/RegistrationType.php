@@ -51,9 +51,9 @@ class RegistrationType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('trainerAccepted', CheckboxType::class, array(
+            ->add('trainerAccepted', CheckboxType::class, [
                 'required' => false,
-            ));
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

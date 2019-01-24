@@ -16,8 +16,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method PostSharing|null find($id, $lockMode = null, $lockVersion = null)
- * @method PostSharing|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|PostSharing find($id, $lockMode = null, $lockVersion = null)
+ * @method null|PostSharing findOneBy(array $criteria, array $orderBy = null)
  * @method PostSharing[]    findAll()
  * @method PostSharing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

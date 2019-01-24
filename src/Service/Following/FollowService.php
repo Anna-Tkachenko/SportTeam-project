@@ -10,7 +10,6 @@
 namespace App\Service\Following;
 
 use App\Repository\User\UserRepositoryInterface;
-use App\Service\Following\FollowServiceInterface;
 
 class FollowService implements FollowServiceInterface
 {
@@ -40,12 +39,14 @@ class FollowService implements FollowServiceInterface
     public function getFollowing(string $slug)
     {
         $user = $this->getUserEntity($slug);
+
         return $user->getFollowing();
     }
 
     public function getFollowers(string $slug)
     {
         $user = $this->getUserEntity($slug);
+
         return $user->getFollowers();
     }
 

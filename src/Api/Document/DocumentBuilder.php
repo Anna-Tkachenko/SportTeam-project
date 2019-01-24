@@ -21,6 +21,7 @@ final class DocumentBuilder
     {
         $builder = new self($apiMapper);
         $builder->createDocument();
+
         return $builder;
     }
 
@@ -32,6 +33,7 @@ final class DocumentBuilder
     public function createDocument(): self
     {
         $this->document = new Document();
+
         return $this;
     }
 
@@ -46,6 +48,7 @@ final class DocumentBuilder
         $resource->setId($entity->getId());
         $resource->setAttributes($this->apiMapper->getAttributes($entity));
         $this->document->setData($resource);
+
         return $this;
     }
 }

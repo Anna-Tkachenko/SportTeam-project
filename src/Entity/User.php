@@ -15,7 +15,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\User\UserRepository")
@@ -232,20 +231,20 @@ class User implements UserInterface, \Serializable, EntityInterface
 
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->username,
             $this->password,
-        ));
+        ]);
     }
 
     public function unserialize($serialized)
     {
-        list(
+        [
             $this->id,
             $this->username,
             $this->password,
-            ) = unserialize($serialized);
+            ] = unserialize($serialized);
     }
 
     public function getImage(): ?string

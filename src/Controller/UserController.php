@@ -49,7 +49,7 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
                'user' => $user,
                'current_user' => $currentUser,
-                'userPosts' => $userPosts
+                'userPosts' => $userPosts,
            ]);
     }
 
@@ -65,7 +65,7 @@ class UserController extends AbstractController
 
         return $this->render('user/showAll.html.twig', [
             'users' => $users,
-            'current_user' => $currentUser
+            'current_user' => $currentUser,
         ]);
     }
 

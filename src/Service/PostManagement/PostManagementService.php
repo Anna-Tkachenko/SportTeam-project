@@ -32,13 +32,14 @@ class PostManagementService implements PostManagementServiceInterface
     {
         $post->setName($postType->getName());
         $post->setContent($postType->getContent());
-        if ($post->getDateCreation() === null) {
+
+        if (null === $post->getDateCreation()) {
             $post->setDateCreation(new \DateTime());
         }
 
         if (null != $postType->getImage()) {
-            if ($post->getImage() != null) {
-                $oldFilePath = $projectDir.'/public/uploads/'.$post->getImage();
+            if (null != $post->getImage()) {
+                $oldFilePath = $projectDir . '/public/uploads/' . $post->getImage();
                 unlink($oldFilePath);
             }
             $fileName = $this->fileManager->upload($postType->getImage());
@@ -55,6 +56,7 @@ class PostManagementService implements PostManagementServiceInterface
         $postType = new PostType();
         $postType->setName($post->getName());
         $postType->setContent($post->getContent());
+
         return $postType;
     }
 

@@ -69,9 +69,11 @@ class PostService implements PostServiceInterface
 
         $collection = new PostsCollection();
         $dataMapper = new PostMapper();
+
         foreach ($posts as $post) {
             $collection->addPost($dataMapper->entityToDto($post));
         }
+
         return $collection;
     }
 
@@ -86,16 +88,20 @@ class PostService implements PostServiceInterface
         if (isset($data['name'])) {
             $post->setName($data['name']);
         }
+
         if (isset($data['content'])) {
             $post->setContent($data['content']);
         }
+
         if (isset($data['is_published']) && is_bool($data['is_published'])) {
             $post->setIsPublished($data['is_published']);
         }
+
         if (isset($data['user'])) {
             $user = $this->userRepository->findOneBy(['username' => $data['user']]);
             $post->setUser($user);
         }
+
         if (isset($data['author'])) {
             $post->setAuthor($data['author']);
         }

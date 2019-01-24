@@ -40,7 +40,7 @@ class UserFollowController extends AbstractController
 
         return $this->render('user/follow/showFollowing.html.twig', [
             'following' => $following,
-            'current_user' => $currentUser
+            'current_user' => $currentUser,
         ]);
     }
 
@@ -56,7 +56,7 @@ class UserFollowController extends AbstractController
 
         return $this->render('user/follow/showFollowers.html.twig', [
             'followers' => $followers,
-            'current_user' => $currentUser
+            'current_user' => $currentUser,
         ]);
     }
 
