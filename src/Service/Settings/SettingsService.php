@@ -9,52 +9,60 @@
 
 namespace App\Service\Settings;
 
-use App\Dto\UserInfo;
+use App\Dto\UserDto;
 use App\Entity\User;
+use App\Repository\User\UserRepositoryInterface;
 use App\Service\FileSystem\FileManagerInterface;
 use App\Service\User\UserPageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SettingsService implements SettingsServiceInterface
 {
-    private $userPageService;
+    private $userRepository;
     private $fileManager;
     private $passwordEncoder;
+    private $projectUploadsDir;
 
     public function __construct(
-        UserPageInterface $userPageService,
+        $projectUploadsDir,
+        UserRepositoryInterface $userRepository,
         FileManagerInterface $fileManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->userPageService = $userPageService;
+        $this->userRepository = $userRepository;
         $this->fileManager = $fileManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->projectUploadsDir = $projectUploadsDir;
     }
 
-    public function getData(User $user): UserInfo
+    public function getDto(User $user): UserDto
     {
-        $userInfo = new UserInfo();
-        $userInfo->setFirstName($user->getFirstName());
-        $userInfo->setLastName($user->getLastName());
+        $userDto = new UserDto();
+        $userDto->setFirstName($user->getFirstName());
+        $userDto->setLastName($user->getLastName());
+        $userDto->setIsPrivateFollowing($user->getIsPrivateFollowing());
+        $userDto->setIsPrivateFollowers($user->getIsPrivateFollowers());
 
-        return $userInfo;
+        return $userDto;
     }
 
-    public function setData(User $user, UserInfo $userInfo, $projectDir): User
+    public function updateData(User $user, UserDto $userDto): User
     {
-        $user->setFirstName($userInfo->getFirstName());
-        $user->setLastName($userInfo->getLastName());
+        $user->setFirstName($userDto->getFirstName());
+        $user->setLastName($userDto->getLastName());
+        $user->setIsPrivateFollowing($userDto->getIsPrivateFollowing());
+        $user->setIsPrivateFollowers($userDto->getIsPrivateFollowers());
 
-        if (null != $userInfo->getImage()) {
+        if (null != $userDto->getImage()) {
             if (null != $user->getImage()) {
-                $oldFilePath = $projectDir . '/public/uploads/' . $user->getImage();
+                $oldFilePath = $this->projectUploadsDir. $user->getImage();
                 unlink($oldFilePath);
             }
-            $fileName = $this->fileManager->upload($userInfo->getImage());
+            $fileName = $this->fileManager->upload($userDto->getImage());
             $user->setImage($fileName);
         }
 
-        $this->saveUser($user);
+        $this->userRepository->save($user);
 
         return $user;
     }
@@ -63,13 +71,8 @@ class SettingsService implements SettingsServiceInterface
     {
         $password = $this->passwordEncoder->encodePassword($user, $newPassword);
         $user->setPassword($password);
-        $this->saveUser($user);
+        $this->userRepository->save($user);
 
         return $user;
-    }
-
-    public function saveUser(User $user): void
-    {
-        $this->userPageService->save($user);
     }
 }

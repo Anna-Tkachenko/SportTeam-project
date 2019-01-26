@@ -28,8 +28,8 @@ class UserController extends AbstractController
 
     public function __construct(
         PostServiceInterface $postService,
-                                UserPageInterface $userPageService,
-                                PostSharingServiceInterface $postSharingService
+        UserPageInterface $userPageService,
+        PostSharingServiceInterface $postSharingService
     ) {
         $this->postService = $postService;
         $this->userPageService = $userPageService;
@@ -77,20 +77,15 @@ class UserController extends AbstractController
         $currentUser = $this->getUser();
         $sharedPost = $this->postService->getPost($slug);
 
-        if ($this->postSharingService->verifyPostSharingAbsent($currentUser, $sharedPost)) {
+        if ($postIsAbsent = $this->postSharingService->verifyPostSharingAbsent($currentUser, $sharedPost)) {
             $this->postSharingService->share($currentUser, $sharedPost);
-
-            $this->addFlash(
-                'notice',
-                'Post was added!'
-            );
-        } else {
-            $this->addFlash(
-                'notice',
-                'Post is already on your page!'
-            );
         }
+        $this->addFlash(
+            'notice',
+            $postIsAbsent ? 'Post was added!' : 'Post is already on your page!'
+        );
 
         return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
     }
+
 }

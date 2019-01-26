@@ -9,11 +9,13 @@
 
 namespace App\Dto;
 
-class UserInfo
+class UserDto
 {
     private $firstName;
     private $lastName;
     private $image;
+    private $isPrivateFollowers;
+    private $isPrivateFollowing;
 
     public function getFirstName(): ?string
     {
@@ -43,5 +45,25 @@ class UserInfo
     public function setImage($image)
     {
         $this->image = $image;
+    }
+
+    public function getIsPrivateFollowers(): bool
+    {
+        return $this->isPrivateFollowers;
+    }
+
+    public function setIsPrivateFollowers(bool $isPrivateFollowers): void
+    {
+        $this->isPrivateFollowers = $isPrivateFollowers;
+    }
+
+    public function getIsPrivateFollowing(): bool
+    {
+        return $this->isPrivateFollowing;
+    }
+
+    public function setIsPrivateFollowing(bool $isPrivateFollowing): void
+    {
+        $this->isPrivateFollowing = $isPrivateFollowing;
     }
 }

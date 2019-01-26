@@ -9,7 +9,9 @@
 
 namespace App\Controller;
 
+use App\Exception\FailedCredentialsException;
 use App\Repository\User\UserRepositoryInterface;
+use App\Service\Security\SecurityServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Security\LoginFormAuthenticator;
@@ -29,10 +31,12 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class SecurityController extends AbstractController
 {
     private $userRepository;
+    private $securityService;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository, SecurityServiceInterface $securityService)
     {
         $this->userRepository = $userRepository;
+        $this->securityService = $securityService;
     }
 
     /**
@@ -58,13 +62,27 @@ class SecurityController extends AbstractController
     /**
      * @Route("/signup", name="app_register")
      */
-    public function registration(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator)
+    public function registration(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $authenticator,
+        $error = ''
+    )
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            try {
+                $this->securityService->verifyUsername($user->getUsername());
+                $this->securityService->verifyEmail($user->getEmail());
+            } catch (FailedCredentialsException $e) {
+                return $this->getFailedResponse($form, $e->getMessage());
+            }
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -82,8 +100,6 @@ class SecurityController extends AbstractController
 
             $this->userRepository->save($user);
 
-            //return $this->redirectToRoute('user', array('slug' => $user->getUsername()));
-
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
@@ -96,6 +112,18 @@ class SecurityController extends AbstractController
             'security/registration.html.twig',
             [
                 'form' => $form->createView(),
+                'error' => $error,
+            ]
+        );
+    }
+
+    private function getFailedResponse($form, $error): Response
+    {
+        return $this->render(
+            'security/registration.html.twig',
+            [
+                'form' => $form->createView(),
+                'error' => $error,
             ]
         );
     }

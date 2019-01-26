@@ -24,6 +24,14 @@
                         {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="form-group">
+                        {{ form_widget(form.isPrivateFollowers) }}
+                        <label for="isPrivateFollowers"> Private followers</label>
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.isPrivateFollowing) }}
+                        <label for="isPrivateFollowing"> Private followings</label>
+                    </div>
+                    <div class="form-group">
                         <label for="username">Image</label>
                         {{ form_widget(form.image) }}
                     </div>

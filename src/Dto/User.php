@@ -25,6 +25,8 @@ final class User
     private $image;
     private $followStatus;
     private $isTrainer;
+    private $isPrivateFollowing;
+    private $isPrivateFollowers;
 
     public const IS_NOT_FOLLOW = 1;
     public const IS_FOLLOW = 2;
@@ -38,7 +40,9 @@ final class User
         string $firstName,
         string $lastName,
         $image,
-        bool $isTrainer
+        bool $isTrainer,
+        bool $isPrivateFollowing,
+        bool $isPrivateFollowers
     ) {
         $this->username = $username;
         $this->password = $password;
@@ -48,6 +52,8 @@ final class User
         $this->lastName = $lastName;
         $this->image = $image;
         $this->isTrainer = $isTrainer;
+        $this->isPrivateFollowing = $isPrivateFollowing;
+        $this->isPrivateFollowers = $isPrivateFollowers;
     }
 
     public function getUsername(): string
@@ -90,44 +96,38 @@ final class User
         return $this->followStatus;
     }
 
-    public function isFollowing()
+    public function isFollowing(): bool
     {
-        if (self::IS_FOLLOW == $this->followStatus) {
-            return true;
-        }
-
-        return false;
+        return self::IS_FOLLOW == $this->followStatus;
     }
 
-    public function isNotFollowing()
+    public function isNotFollowing(): bool
     {
-        if (self::IS_NOT_FOLLOW == $this->followStatus) {
-            return true;
-        }
-
-        return false;
+        return self::IS_NOT_FOLLOW == $this->followStatus;
     }
 
-    public function isSame()
+    public function isSame(): bool
     {
-        if (self::IS_THE_SAME == $this->followStatus) {
-            return true;
-        }
-
-        return false;
+        return self::IS_THE_SAME == $this->followStatus;
     }
 
     public function isPostAuthor(string $username): bool
     {
-        if ($username == $this->getUsername()) {
-            return true;
-        }
-
-        return false;
+        return $username == $this->getUsername();
     }
 
     public function isTrainer(): bool
     {
         return $this->isTrainer;
+    }
+
+    public function isPrivateFollowing(): bool
+    {
+        return $this->isPrivateFollowing;
+    }
+
+    public function isPrivateFollowers(): bool
+    {
+        return $this->isPrivateFollowers;
     }
 }

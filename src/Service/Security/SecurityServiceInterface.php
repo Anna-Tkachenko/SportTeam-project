@@ -11,7 +11,9 @@ namespace App\Service\Security;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-interface LoginPageInterface
+interface SecurityServiceInterface
 {
-    public function isValidUser(string $username, string $password, UserPasswordEncoderInterface $passwordEncoder);
+    public function verifyUsername(string $username);
+
+    public function verifyEmail(string $email);
 }

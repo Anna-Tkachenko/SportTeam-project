@@ -10,11 +10,13 @@
 namespace App\Service\Post;
 
 use App\Entity\Post;
+use App\Exception\PostNotFoundException;
 use App\Post\PostMapper;
 use App\Post\PostsCollection;
 use App\Exception\NullAttributeException;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
+use PHPUnit\Runner\Exception;
 
 /**
  * Service provides post data from the storage.
@@ -39,14 +41,14 @@ class PostService implements PostServiceInterface
         $this->postRepository->save($post);
     }
 
-    public function savePost(Post $post): void
-    {
-        $this->postRepository->save($post);
-    }
-
     public function findOne(int $id)
     {
-        return $this->postRepository->find($id);
+        $post = $this->postRepository->find($id);
+        if($post === null) {
+            throw new PostNotFoundException('Post not found.');
+        }
+
+        return $post;
     }
 
     public function getPost(string $slug)

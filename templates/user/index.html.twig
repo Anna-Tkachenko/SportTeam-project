@@ -51,6 +51,21 @@
                             {% endif %}
                         </p>
 
+                        <p>
+                            {% if current_user.username == user.username %}
+
+                            {% else %}
+                                {% if not user.isPrivateFollowing %}
+                                    <a class="alert-link" href="{{ path('user_following', {slug: user.username}) }}">Following</a> <br>
+                                {% endif %}
+
+                                {% if not user.isPrivateFollowers %}
+                                    <a class="alert-link" href="{{ path('user_followers', {slug: user.username}) }}">Followers</a>
+                                {% endif %}
+
+                            {% endif %}
+                        </p>
+
                         {% if user.isFollowing() %}
                             <p>
                                 <a href="{{ path('unfollow', {slug: user.username}) }}">Unfollow</a>
@@ -62,15 +77,6 @@
                         {% else %}
 
                         {% endif %}
-
-                        <p>
-                            {% if current_user.username == user.username %}
-
-                            {% else %}
-                                <a class="alert-link" href="{{ path('user_following', {slug: user.username}) }}">Following</a> <br>
-                                <a class="alert-link" href="{{ path('user_followers', {slug: user.username}) }}">Followers</a>
-                            {% endif %}
-                        </p>
 
                     </div>
                 </div>
@@ -85,7 +91,7 @@
                     <li><a class="alert-link" href="{{ path('user_following', {slug: current_user.username}) }}">Following</a></li>
                     <li><a class="alert-link" href="{{ path('user_followers', {slug: current_user.username}) }}">Followers</a></li>
                     {% if is_granted('ROLE_USER_TRAINER') %}
-                        <li><a class="alert-link" href="{{ path('add_post', {slug: current_user.username, postId: 0, option: 'add'}) }}">Add post</a></li>
+                        <li><a class="alert-link" href="{{ path('add_post', {slug: current_user.username}) }}">Add post</a></li>
                     {% endif %}
 
                 </ul>
@@ -111,21 +117,25 @@
                             <img class="card-img-top" src="/uploads/{{ post.image }}" alt="">
                         {% endif %}
                         <p class="card-text">
-                            <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small><br>
+                            <small class="text-muted">Author <a href="{{ path('user', {slug: post.author }) }}">{{ post.author}}</a></small>
+
+                            {% if not post.isPublished %}
+                                <small class="text-muted">(post was deleted)</small>
+                            {% endif %}
+
+                            <br>
                             <small class="text-muted">{{ post.dateCreation }}</small>
 
                             {% if current_user.username == user.username %}
 
                                 {% if current_user.isPostAuthor(post.author) %}
-                                    <a href="{{ path('add_post', {slug: current_user.username, postId: post.id, option: 'edit'}) }}"><i class="far fa-edit"></i></a>
+                                    <a href="{{ path('edit_post', {slug: current_user.username, postId: post.id}) }}"><i class="far fa-edit"></i></a>
                                 {% endif %}
 
                                 <a href="{{ path('delete_post', {slug: post.id}) }}"><i class="far fa-trash-alt"></i></a>
                             {% else %}
 
-                                {% if current_user.isPostAuthor(post.author) %}
-
-                                {% else %}
+                                {% if  not current_user.isPostAuthor(post.author) %}
                                     <a href="{{ path('share_post', {slug: post.id}) }}"><i class="fas fa-share"></i></a>
                                 {% endif %}
 

@@ -7,6 +7,9 @@
             </div>
             <div class="col-md-6 main_form">
                 {{ form_start(form) }}
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
                 <div class="form-group">
                     <label for="username">First name</label>
                     {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}

@@ -12,6 +12,11 @@ namespace App\Service\PostManagement;
 use App\Dto\PostType;
 use App\Entity\Post;
 
+/**
+ * Contract for post management service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface PostManagementServiceInterface
 {
     public function setData(Post $post, PostType $postType, $projectDir): Post;

@@ -42,18 +42,14 @@ class PostSharingService implements PostSharingServiceInterface
 
     public function verifyPostSharingAbsent(User $user, Post $post): bool
     {
-        if ($this->postSharingRepository->verifyShared($user, $post) != []) {
-            return false;
-        }
-
-        return true;
+        return empty($this->postSharingRepository->verifyShared($user, $post));
     }
 
     public function deletePostSharing(User $user, Post $post): void
     {
         $sharing = $this->postSharingRepository->verifyShared($user, $post);
 
-        if ($sharing != []) {
+        if (!empty($sharing)) {
             $this->postSharingRepository->delete($sharing);
         }
     }

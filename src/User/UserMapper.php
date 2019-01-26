@@ -31,7 +31,9 @@ class UserMapper
             $entity->getFirstName(),
             $entity->getLastName(),
             $entity->getImage(),
-            $entity->getIsTrainer()
+            $entity->getIsTrainer(),
+            $entity->getIsPrivateFollowing(),
+            $entity->getIsPrivateFollowers()
         );
     }
 }

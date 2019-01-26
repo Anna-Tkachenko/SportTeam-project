@@ -12,6 +12,11 @@ namespace App\Service\PostSharing;
 use App\Entity\Post;
 use App\Entity\User;
 
+/**
+ * Contract for post sharing service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface PostSharingServiceInterface
 {
     public function share(User $user, Post $post): void;

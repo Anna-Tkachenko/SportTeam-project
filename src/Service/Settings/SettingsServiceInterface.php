@@ -9,16 +9,14 @@
 
 namespace App\Service\Settings;
 
-use App\Dto\UserInfo;
+use App\Dto\UserDto;
 use App\Entity\User;
 
 interface SettingsServiceInterface
 {
-    public function getData(User $user): UserInfo;
+    public function getDto(User $user): UserDto;
 
-    public function setData(User $user, UserInfo $userInfo, $projectDir): User;
+    public function updateData(User $user, UserDto $userDto): User;
 
     public function changePassword(User $user, $newPassword): User;
-
-    public function saveUser(User $user): void;
 }

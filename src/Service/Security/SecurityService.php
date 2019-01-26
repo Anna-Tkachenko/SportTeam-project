@@ -9,10 +9,11 @@
 
 namespace App\Service\Security;
 
+use App\Exception\FailedCredentialsException;
 use App\Repository\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class LoginPage implements LoginPageInterface
+class SecurityService implements SecurityServiceInterface
 {
     private $userRepository;
 
@@ -21,14 +22,19 @@ class LoginPage implements LoginPageInterface
         $this->userRepository = $userRepository;
     }
 
-    public function isValidUser(string $username, string $password, UserPasswordEncoderInterface $passwordEncoder)
+    public function verifyUsername(string $username)
     {
-        $user = $this->userRepository->findOneBy(['username' => $username]);
-
-        if (null === $user) {
-            return false;
+        $user = $this->userRepository->loadUserByUsername($username);
+        if (null != $user) {
+            throw new FailedCredentialsException('This username is already used.');
         }
+    }
 
-        return $passwordEncoder->isPasswordValid($user, $password);
+    public function verifyEmail(string $email)
+    {
+        $user = $this->userRepository->loadUserByUsername($email);
+        if (null != $user) {
+            throw new FailedCredentialsException('This email is already used.');
+        }
     }
 }

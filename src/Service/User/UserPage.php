@@ -80,7 +80,7 @@ class UserPage implements UserPageInterface
     public function create(array $data)
     {
         if (isset($data['username']) && isset($data['first_name']) && isset($data['last_name'])
-            && isset($data['plain_password']) && isset($data['email']) && isset($data['is_active'])) {
+            && isset($data['plain_password']) && isset($data['email']) && isset($data['is_active']) && isset($data['is_trainer'])) {
         } else {
             throw new NullAttributeException();
         }
@@ -93,6 +93,7 @@ class UserPage implements UserPageInterface
         $user->setPassword($this->passwordEncoder->encodePassword($user, $data['plain_password']));
         $user->setEmail($data['email']);
         $user->setIsActive($data['is_active']);
+        $user->setIsTrainer($data['is_trainer']);
 
         $this->userRepository->save($user);
 
@@ -161,10 +162,5 @@ class UserPage implements UserPageInterface
         }
 
         return DtoUser::IS_NOT_FOLLOW;
-    }
-
-    public function save(User $user): void
-    {
-        $this->userRepository->save($user);
     }
 }

@@ -21,8 +21,6 @@ interface PostServiceInterface
 {
     public function deletePost(int $id): void;
 
-    public function savePost(Post $post): void;
-
     public function create(array $data);
 
     public function findOne(int $id);

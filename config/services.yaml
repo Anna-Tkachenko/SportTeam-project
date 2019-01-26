@@ -52,7 +52,7 @@ services:
     App\Service\Settings\SettingsService:
         class: App\Service\Settings\SettingsService
         arguments:
-            - '@App\Service\User\UserPage'
+            - '%app.uploads_dir%'
 
     App\Controller\PostController:
         class: App\Controller\PostController

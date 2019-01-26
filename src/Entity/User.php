@@ -101,12 +101,24 @@ class User implements UserInterface, \Serializable, EntityInterface
      */
     private $isTrainer;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPrivateFollowing;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPrivateFollowers;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
         $this->postSharings = new ArrayCollection();
+        $this->isPrivateFollowers = false;
+        $this->isPrivateFollowing = false;
     }
 
     public function getId(): ?int
@@ -392,6 +404,30 @@ class User implements UserInterface, \Serializable, EntityInterface
     public function setIsTrainer(bool $isTrainer): self
     {
         $this->isTrainer = $isTrainer;
+
+        return $this;
+    }
+
+    public function getIsPrivateFollowing(): ?bool
+    {
+        return $this->isPrivateFollowing;
+    }
+
+    public function setIsPrivateFollowing(bool $isPrivateFollowing): self
+    {
+        $this->isPrivateFollowing = $isPrivateFollowing;
+
+        return $this;
+    }
+
+    public function getIsPrivateFollowers(): ?bool
+    {
+        return $this->isPrivateFollowers;
+    }
+
+    public function setIsPrivateFollowers(bool $isPrivateFollowers): self
+    {
+        $this->isPrivateFollowers = $isPrivateFollowers;
 
         return $this;
     }

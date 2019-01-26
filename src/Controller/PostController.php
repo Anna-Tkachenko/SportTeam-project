@@ -10,6 +10,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Exception\PostNotFoundException;
 use App\Form\PostType;
 use App\Dto\PostType as PostModel;
 use App\Service\Post\PostServiceInterface;
@@ -21,6 +22,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller provides post management functions.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class PostController extends AbstractController
 {
     private $userPageService;
@@ -41,23 +47,46 @@ class PostController extends AbstractController
     }
 
     /**
-     * Show form for adding/editing post.
+     * Provide add post function.
      *
      * @IsGranted("ROLE_USER_TRAINER")
      *
-     * @Route("/user/{slug}/post/{postId}/{option}", name="add_post")
+     * @Route("/user/{slug}/add_post", name="add_post")
      */
-    public function addPost(Request $request, string $slug, int $postId, string $option)
+    public function addPost(Request $request, string $slug)
     {
-        if ('add' == $option) {
-            $userEntity = $this->userPageService->getUserEntity($slug);
-            $post = new Post($userEntity, $slug);
-            $postType = new PostModel();
-        } elseif ('edit' == $option) {
+        $userEntity = $this->userPageService->getUserEntity($slug);
+        $post = new Post($userEntity, $slug);
+        $postType = new PostModel();
+
+        return $this->getResponse($request, $postType, $post);
+    }
+
+    /**
+     * Provide edit post function.
+     *
+     * @IsGranted("ROLE_USER_TRAINER")
+     *
+     * @Route("/user/{slug}/edit_post/{postId}/", name="edit_post")
+     */
+    public function editPost(Request $request, string $slug, int $postId)
+    {
+        try {
             $post = $this->postService->findOne($postId);
-            $postType = $this->postManagementService->getData($post);
+        } catch (PostNotFoundException $e) {
+            throw $this->createNotFoundException($e->getMessage());
         }
 
+        $postType = $this->postManagementService->getData($post);
+
+        return $this->getResponse($request, $postType, $post);
+    }
+
+    /**
+     * Show form for add/edit post functions.
+     */
+    private function getResponse(Request $request, $postType, $post)
+    {
         $currentUser = $this->getUser();
         $form = $this->createForm(PostType::class, $postType);
         $form->handleRequest($request);
@@ -66,7 +95,7 @@ class PostController extends AbstractController
             $projectDir = $this->getParameter('kernel.project_dir');
             $post = $this->postManagementService->setData($post, $postType, $projectDir);
 
-            return $this->redirectToRoute('user', ['slug' => $slug]);
+            return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
         }
 
         return $this->render('user/settings/addPost.html.twig', [

@@ -33,6 +33,4 @@ interface UserPageInterface
     public function update(int $id, array $data);
 
     public function deleteUser(int $id): void;
-
-    public function save(User $user): void;
 }
