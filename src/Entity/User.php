@@ -111,6 +111,11 @@ class User implements UserInterface, \Serializable, EntityInterface
      */
     private $isPrivateFollowers;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $lastActiveAt;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -119,6 +124,7 @@ class User implements UserInterface, \Serializable, EntityInterface
         $this->postSharings = new ArrayCollection();
         $this->isPrivateFollowers = false;
         $this->isPrivateFollowing = false;
+        $this->lastActiveAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -428,6 +434,18 @@ class User implements UserInterface, \Serializable, EntityInterface
     public function setIsPrivateFollowers(bool $isPrivateFollowers): self
     {
         $this->isPrivateFollowers = $isPrivateFollowers;
+
+        return $this;
+    }
+
+    public function getLastActiveAt(): ?\DateTimeInterface
+    {
+        return $this->lastActiveAt;
+    }
+
+    public function setLastActiveAt(\DateTimeInterface $lastActiveAt): self
+    {
+        $this->lastActiveAt = $lastActiveAt;
 
         return $this;
     }

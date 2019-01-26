@@ -64,3 +64,6 @@ services:
         arguments:
             - '@App\Service\FileSystem\FileName'
             - '%app.uploads_dir%'
+
+    App\Listener\UserListener:
+        tags: [{ name: kernel.event_listener, event: kernel.request }]

@@ -36,6 +36,16 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             ->getResult();
     }
 
+    public function loadUnActiveUser(\DateTimeInterface $dateTime)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.lastActiveAt < :datetime')
+            ->andWhere('u.isActive = true')
+            ->setParameter('datetime', $dateTime)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(User $user): void
     {
         $em = $this->getEntityManager();

@@ -41,7 +41,8 @@ class UserFixtures extends Fixture
                 ->setPassword($this->passwordEncoder->encodePassword($user, $faker->password))
                 ->setEmail($faker->email)
                 ->setIsActive($faker->boolean(50))
-                ->setIsTrainer($faker->boolean(40));
+                ->setIsTrainer($faker->boolean(40))
+                ->setLastActiveAt(new \DateTime());
 
             $manager->persist($user);
         }
