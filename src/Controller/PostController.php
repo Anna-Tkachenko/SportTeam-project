@@ -83,28 +83,6 @@ class PostController extends AbstractController
     }
 
     /**
-     * Show form for add/edit post functions.
-     */
-    private function getResponse(Request $request, $postType, $post)
-    {
-        $currentUser = $this->getUser();
-        $form = $this->createForm(PostType::class, $postType);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $projectDir = $this->getParameter('kernel.project_dir');
-            $post = $this->postManagementService->setData($post, $postType, $projectDir);
-
-            return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
-        }
-
-        return $this->render('user/settings/addPost.html.twig', [
-            'current_user' => $currentUser,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/user/deletePost/{slug}", name="delete_post")
      */
     public function deletePost(int $slug)
@@ -126,5 +104,27 @@ class PostController extends AbstractController
         );
 
         return $this->redirectToRoute('user', ['slug' => $username]);
+    }
+
+    /**
+     * Show form for add/edit post functions.
+     */
+    private function getResponse(Request $request, $postType, $post)
+    {
+        $currentUser = $this->getUser();
+        $form = $this->createForm(PostType::class, $postType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $projectDir = $this->getParameter('kernel.project_dir');
+            $post = $this->postManagementService->setData($post, $postType, $projectDir);
+
+            return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
+        }
+
+        return $this->render('user/settings/addPost.html.twig', [
+            'current_user' => $currentUser,
+            'form' => $form->createView(),
+        ]);
     }
 }

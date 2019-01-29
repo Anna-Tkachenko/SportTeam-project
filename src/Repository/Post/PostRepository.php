@@ -26,18 +26,19 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         parent::__construct($registry, Post::class);
     }
 
-    public function findByUser(string $slug)
+    public function findByUser(string $slug, $postsId)
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
             ->andWhere('u.username = :name')
             ->andWhere('p.isPublished = true')
+            ->orWhere('p.id in (:postsId)')
             ->setParameters([
                 'name' => $slug,
+                'postsId' => $postsId
             ])
             ->orderBy('p.id', 'DESC')
             ->getQuery()
-            ->getResult()
             ;
     }
 

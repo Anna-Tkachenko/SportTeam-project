@@ -21,4 +21,8 @@ interface UserRepositoryInterface extends UserLoaderInterface
     public function delete(int $id): void;
 
     public function loadUnActiveUser(\DateTimeInterface $datetime);
+
+    public function loadById(array $id);
+
+    public function loadAllUsers();
 }

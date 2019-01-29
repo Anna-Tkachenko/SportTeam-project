@@ -124,7 +124,7 @@
                             {% endif %}
 
                             <br>
-                            <small class="text-muted">{{ post.dateCreation }}</small>
+                            <small class="text-muted">{{ post.dateCreation|date('Y-m-d H:i:s') }}</small>
 
                             {% if current_user.username == user.username %}
 
@@ -144,7 +144,14 @@
 
 
                     </div>
+
                 </div>
             {% endfor %}
+
+            <div class="row">
+                <div class="knp_navigation col-sm-6 container">
+                    {{ knp_pagination_render(userPosts) }}
+                </div>
+            </div>
         </div>
 {% endblock %}

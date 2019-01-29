@@ -17,8 +17,6 @@ interface FollowServiceInterface
 
     public function getUserEntity(string $slug);
 
-    public function saveUser($user): void;
-
     public function follow($currentUser, $user);
 
     public function unFollow($currentUser, $user): void;

@@ -20,4 +20,6 @@ interface PostSharingRepositoryInterface
     public function verifyShared(User $user, Post $post);
 
     public function delete(PostSharing $postSharing): void;
+
+    public function getIdByUser(int $id);
 }

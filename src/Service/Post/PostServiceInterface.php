@@ -9,8 +9,7 @@
 
 namespace App\Service\Post;
 
-use App\Entity\Post;
-use App\Post\PostsCollection;
+use Doctrine\ORM\Query;
 
 /**
  * Contract for post service.
@@ -29,5 +28,5 @@ interface PostServiceInterface
 
     public function getPost(string $slug);
 
-    public function getPosts(string $slug): PostsCollection;
+    public function getPosts(string $slug): Query;
 }

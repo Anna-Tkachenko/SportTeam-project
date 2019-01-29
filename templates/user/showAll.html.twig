@@ -45,5 +45,8 @@
                 {{ parent() }}
             {% endblock %}
         </div>
+        <div class="knp_navigation">
+            {{ knp_pagination_render(users) }}
+        </div>
     </div>
 {% endblock %}

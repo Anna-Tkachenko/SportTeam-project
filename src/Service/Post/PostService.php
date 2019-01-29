@@ -11,11 +11,11 @@ namespace App\Service\Post;
 
 use App\Entity\Post;
 use App\Exception\PostNotFoundException;
-use App\Post\PostMapper;
-use App\Post\PostsCollection;
 use App\Exception\NullAttributeException;
 use App\Repository\Post\PostRepositoryInterface;
+use App\Repository\PostSharing\PostSharingRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
+use Doctrine\ORM\Query;
 use PHPUnit\Runner\Exception;
 
 /**
@@ -27,11 +27,17 @@ class PostService implements PostServiceInterface
 {
     private $postRepository;
     private $userRepository;
+    private $postSharingRepository;
 
-    public function __construct(PostRepositoryInterface $postRepository, UserRepositoryInterface $userRepository)
+    public function __construct(
+        PostRepositoryInterface $postRepository,
+        UserRepositoryInterface $userRepository,
+        PostSharingRepositoryInterface $postSharingRepository
+    )
     {
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
+        $this->postSharingRepository = $postSharingRepository;
     }
 
     public function deletePost(int $id): void
@@ -56,27 +62,13 @@ class PostService implements PostServiceInterface
         return $this->postRepository->find($slug);
     }
 
-    public function getPosts(string $slug): PostsCollection
+    public function getPosts(string $slug): Query
     {
-        $posts = $this->postRepository->findByUser($slug);
         $user = $this->userRepository->findOneBy(['username' => $slug]);
+        $postsId = $this->postSharingRepository->getIdByUser($user->getId());
+        $postsQuery = $this->postRepository->findByUser($slug, $postsId);
 
-        $sharings = $user->getPostSharings();
-
-        foreach ($sharings as $sharing) {
-            $post = $sharing->getPost();
-            $postName = $post->getName();
-            array_unshift($posts, $post);
-        }
-
-        $collection = new PostsCollection();
-        $dataMapper = new PostMapper();
-
-        foreach ($posts as $post) {
-            $collection->addPost($dataMapper->entityToDto($post));
-        }
-
-        return $collection;
+        return $postsQuery;
     }
 
     public function update(int $id, array $data)

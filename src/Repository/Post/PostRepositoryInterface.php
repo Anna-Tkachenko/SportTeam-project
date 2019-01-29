@@ -13,7 +13,7 @@ use App\Entity\Post;
 
 interface PostRepositoryInterface
 {
-    public function findByUser(string $slug);
+    public function findByUser(string $slug, $postsId);
 
     public function deletePost(int $id): void;
 

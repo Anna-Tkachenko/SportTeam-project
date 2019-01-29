@@ -10,7 +10,9 @@
 namespace App\Controller;
 
 use App\Service\Following\FollowServiceInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,10 +24,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserFollowController extends AbstractController
 {
     private $followService;
+    private $paginator;
 
-    public function __construct(FollowServiceInterface $followService)
+    public function __construct(FollowServiceInterface $followService, PaginatorInterface $paginator)
     {
         $this->followService = $followService;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -33,13 +37,19 @@ class UserFollowController extends AbstractController
      *
      * @Route("/user/{slug}/following", name="user_following")
      */
-    public function showFollowing(string $slug)
+    public function showFollowing(string $slug, Request $request)
     {
-        $following = $this->followService->getFollowing($slug);
+        $followingQuery = $this->followService->getFollowing($slug);
         $currentUser = $this->getUser();
 
+        $pagination = $this->paginator->paginate(
+            $followingQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('user/follow/showFollowing.html.twig', [
-            'following' => $following,
+            'following' => $pagination,
             'current_user' => $currentUser,
         ]);
     }
@@ -49,13 +59,19 @@ class UserFollowController extends AbstractController
      *
      * @Route("/user/{slug}/followers", name="user_followers")
      */
-    public function showFollowers(string $slug)
+    public function showFollowers(string $slug, Request $request)
     {
-        $followers = $this->followService->getFollowers($slug);
+        $followersQuery = $this->followService->getFollowers($slug);
         $currentUser = $this->getUser();
 
+        $pagination = $this->paginator->paginate(
+            $followersQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('user/follow/showFollowers.html.twig', [
-            'followers' => $followers,
+            'followers' => $pagination,
             'current_user' => $currentUser,
         ]);
     }

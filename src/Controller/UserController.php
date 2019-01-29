@@ -12,7 +12,9 @@ namespace App\Controller;
 use App\Service\Post\PostServiceInterface;
 use App\Service\PostSharing\PostSharingServiceInterface;
 use App\Service\User\UserPageInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,31 +27,40 @@ class UserController extends AbstractController
     private $postService;
     private $userPageService;
     private $postSharingService;
+    private $paginator;
 
     public function __construct(
         PostServiceInterface $postService,
         UserPageInterface $userPageService,
-        PostSharingServiceInterface $postSharingService
+        PostSharingServiceInterface $postSharingService,
+        PaginatorInterface $paginator
     ) {
         $this->postService = $postService;
         $this->userPageService = $userPageService;
         $this->postSharingService = $postSharingService;
+        $this->paginator = $paginator;
     }
 
     /**
      * @Route("/user/{slug}", name="user")
      */
-    public function index(string $slug)
+    public function index(string $slug, Request $request)
     {
         $currentUser = $this->getUser();
         $user = $this->userPageService->getUser($currentUser, $slug);
 
-        $userPosts = $this->postService->getPosts($slug);
+        $userPostsQuery = $this->postService->getPosts($slug);
+
+        $pagination = $this->paginator->paginate(
+            $userPostsQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         return $this->render('user/index.html.twig', [
                'user' => $user,
                'current_user' => $currentUser,
-                'userPosts' => $userPosts,
+                'userPosts' => $pagination,
            ]);
     }
 
@@ -58,13 +69,18 @@ class UserController extends AbstractController
      *
      * @Route("/user/{slug}/allUsers", name="all_users")
      */
-    public function showAll(string $slug)
+    public function showAll(string $slug, Request $request)
     {
         $currentUser = $this->getUser();
-        $users =$this->userPageService->getAllUsers();
+        $allUsersQuery =$this->userPageService->getAllUsers();
+        $pagination = $this->paginator->paginate(
+            $allUsersQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         return $this->render('user/showAll.html.twig', [
-            'users' => $users,
+            'users' => $pagination,
             'current_user' => $currentUser,
         ]);
     }

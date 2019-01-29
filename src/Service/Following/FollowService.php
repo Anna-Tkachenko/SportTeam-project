@@ -9,50 +9,57 @@
 
 namespace App\Service\Following;
 
+use App\Entity\UserFollowing;
 use App\Repository\User\UserRepositoryInterface;
+use App\Repository\UserFollowing\UserFollowingRepositoryInterface;
 
 class FollowService implements FollowServiceInterface
 {
     private $userRepository;
+    private $followingRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        UserFollowingRepositoryInterface $followingRepository
+    )
     {
         $this->userRepository = $userRepository;
+        $this->followingRepository = $followingRepository;
     }
 
     public function follow($currentUser, $user)
     {
-        $currentUser->addFollowing($user);
-        $user->addFollower($currentUser);
-        $this->saveUser($user);
-        $this->saveUser($currentUser);
+        $userFollow = new UserFollowing($currentUser, $user);
+        $this->followingRepository->save($userFollow);
     }
 
     public function unFollow($currentUser, $user): void
     {
-        $currentUser->removeFollowing($user);
-        $user->removeFollower($currentUser);
-        $this->saveUser($user);
-        $this->saveUser($currentUser);
+        $this->followingRepository->delete($currentUser->getId(), $user->getId());
     }
 
     public function getFollowing(string $slug)
     {
-        $user = $this->getUserEntity($slug);
+        $userId = $this->getUserEntity($slug)->getId();
+        $userFollowingsId = $this->followingRepository->findFollowings($userId);
+        $usersId = [];
+        foreach ($userFollowingsId as $key => $value) {
+            $usersId[] = $value['1'];
+        }
 
-        return $user->getFollowing();
+        return $this->userRepository->loadById($usersId);
     }
 
     public function getFollowers(string $slug)
     {
-        $user = $this->getUserEntity($slug);
+        $userId = $this->getUserEntity($slug)->getId();
+        $userFollowersId = $this->followingRepository->findFollowers($userId);
+        $usersId = [];
+        foreach ($userFollowersId as $key => $value) {
+            $usersId[] = $value['1'];
+        }
 
-        return $user->getFollowers();
-    }
-
-    public function saveUser($user): void
-    {
-        $this->userRepository->save($user);
+        return $this->userRepository->loadById($usersId);
     }
 
     public function getUserEntity(string $slug)

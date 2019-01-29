@@ -74,7 +74,7 @@ class UserPage implements UserPageInterface
 
     public function getAllUsers()
     {
-        return $this->userRepository->findAll();
+        return $this->userRepository->loadAllUsers();
     }
 
     public function create(array $data)
@@ -153,9 +153,10 @@ class UserPage implements UserPageInterface
             return DtoUser::IS_THE_SAME;
         }
 
-        $following = $this->followService->getFollowing($currentUsername);
+        $followings = $this->followService->getFollowing($currentUsername)->getResult();
 
-        foreach ($following as $user) {
+        foreach ($followings as $user) {
+
             if ($selectUsername == $user->getUsername()) {
                 return DtoUser::IS_FOLLOW;
             }

@@ -46,6 +46,24 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             ->getResult();
     }
 
+    public function loadById(array $id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id in (:usersId)')
+            ->setParameters([
+                'usersId' => $id
+            ])
+            ->orderBy('u.id', 'DESC')
+            ->getQuery()
+            ;
+    }
+
+    public function loadAllUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->getQuery();
+    }
+
     public function save(User $user): void
     {
         $em = $this->getEntityManager();

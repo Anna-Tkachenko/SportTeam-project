@@ -28,6 +28,19 @@ class PostSharingRepository extends ServiceEntityRepository implements PostShari
         parent::__construct($registry, PostSharing::class);
     }
 
+    public function getIdByUser(int $id)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('identity(p.post)')
+            ->andWhere('p.user = :id')
+            ->setParameters([
+                'id' => $id,
+            ])
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function save(PostSharing $postSharing): void
     {
         $em = $this->getEntityManager();
