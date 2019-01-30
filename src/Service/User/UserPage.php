@@ -156,7 +156,6 @@ class UserPage implements UserPageInterface
         $followings = $this->followService->getFollowing($currentUsername)->getResult();
 
         foreach ($followings as $user) {
-
             if ($selectUsername == $user->getUsername()) {
                 return DtoUser::IS_FOLLOW;
             }

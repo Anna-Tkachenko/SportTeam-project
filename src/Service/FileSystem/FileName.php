@@ -9,6 +9,11 @@
 
 namespace App\Service\FileSystem;
 
+/**
+ * Provides uniq names for project files.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class FileName implements FileNameInterface
 {
     public function getName(string $originName): string

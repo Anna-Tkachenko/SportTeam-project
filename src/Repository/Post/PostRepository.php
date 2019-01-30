@@ -11,6 +11,7 @@ namespace App\Repository\Post;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,7 +27,10 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         parent::__construct($registry, Post::class);
     }
 
-    public function findByUser(string $slug, $postsId)
+    /**
+     * {@inheritdoc}
+     */
+    public function findByUser(string $slug, $postsId): Query
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
@@ -35,7 +39,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
             ->orWhere('p.id in (:postsId)')
             ->setParameters([
                 'name' => $slug,
-                'postsId' => $postsId
+                'postsId' => $postsId,
             ])
             ->orderBy('p.id', 'DESC')
             ->getQuery()
@@ -50,6 +54,9 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         $em->flush();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(Post $post): void
     {
         $em = $this->getEntityManager();

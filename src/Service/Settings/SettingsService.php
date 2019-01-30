@@ -13,7 +13,6 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\FileSystem\FileManagerInterface;
-use App\Service\User\UserPageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SettingsService implements SettingsServiceInterface
@@ -55,7 +54,7 @@ class SettingsService implements SettingsServiceInterface
 
         if (null != $userDto->getImage()) {
             if (null != $user->getImage()) {
-                $oldFilePath = $this->projectUploadsDir. $user->getImage();
+                $oldFilePath = $this->projectUploadsDir . $user->getImage();
                 unlink($oldFilePath);
             }
             $fileName = $this->fileManager->upload($userDto->getImage());

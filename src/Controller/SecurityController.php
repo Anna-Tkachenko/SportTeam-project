@@ -68,14 +68,12 @@ class SecurityController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $authenticator,
         $error = ''
-    )
-    {
+    ) {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
                 $this->securityService->verifyUsername($user->getUsername());
                 $this->securityService->verifyEmail($user->getEmail());

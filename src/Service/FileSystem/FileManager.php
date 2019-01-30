@@ -11,6 +11,11 @@ namespace App\Service\FileSystem;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * File manager for uploads files to project.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class FileManager implements FileManagerInterface
 {
     private $fileName;

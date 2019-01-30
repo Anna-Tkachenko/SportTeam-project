@@ -13,6 +13,11 @@ use App\Entity\UserFollowing;
 use App\Repository\User\UserRepositoryInterface;
 use App\Repository\UserFollowing\UserFollowingRepositoryInterface;
 
+/**
+ * Provides user's follow, unfollow functions.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class FollowService implements FollowServiceInterface
 {
     private $userRepository;
@@ -21,8 +26,7 @@ class FollowService implements FollowServiceInterface
     public function __construct(
         UserRepositoryInterface $userRepository,
         UserFollowingRepositoryInterface $followingRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->followingRepository = $followingRepository;
     }
@@ -43,6 +47,7 @@ class FollowService implements FollowServiceInterface
         $userId = $this->getUserEntity($slug)->getId();
         $userFollowingsId = $this->followingRepository->findFollowings($userId);
         $usersId = [];
+
         foreach ($userFollowingsId as $key => $value) {
             $usersId[] = $value['1'];
         }
@@ -55,6 +60,7 @@ class FollowService implements FollowServiceInterface
         $userId = $this->getUserEntity($slug)->getId();
         $userFollowersId = $this->followingRepository->findFollowers($userId);
         $usersId = [];
+
         foreach ($userFollowersId as $key => $value) {
             $usersId[] = $value['1'];
         }

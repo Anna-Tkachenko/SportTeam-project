@@ -11,6 +11,7 @@ namespace App\Repository\User;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -46,24 +47,27 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             ->getResult();
     }
 
-    public function loadById(array $id)
+    public function loadById(array $id): Query
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.id in (:usersId)')
             ->setParameters([
-                'usersId' => $id
+                'usersId' => $id,
             ])
             ->orderBy('u.id', 'DESC')
             ->getQuery()
             ;
     }
 
-    public function loadAllUsers()
+    public function loadAllUsers(): Query
     {
         return $this->createQueryBuilder('u')
             ->getQuery();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(User $user): void
     {
         $em = $this->getEntityManager();

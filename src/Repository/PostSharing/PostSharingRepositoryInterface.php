@@ -13,13 +13,26 @@ use App\Entity\Post;
 use App\Entity\PostSharing;
 use App\Entity\User;
 
+/**
+ * Contract for post-sharing repository.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface PostSharingRepositoryInterface
 {
+    /**
+     * Saves post-sharing to database.
+     */
     public function save(PostSharing $postSharing): void;
 
-    public function verifyShared(User $user, Post $post);
+    /**
+     * Finds post-sharing by user and post.
+     *
+     * @return null|PostSharing
+     */
+    public function verifyShared(User $user, Post $post): ?PostSharing;
 
     public function delete(PostSharing $postSharing): void;
 
-    public function getIdByUser(int $id);
+    public function getPostIdByUser(int $id);
 }

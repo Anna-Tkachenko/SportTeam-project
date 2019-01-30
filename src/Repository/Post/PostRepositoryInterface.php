@@ -10,12 +10,26 @@
 namespace App\Repository\Post;
 
 use App\Entity\Post;
+use Doctrine\ORM\Query;
 
+/**
+ * Contract for post repository.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface PostRepositoryInterface
 {
-    public function findByUser(string $slug, $postsId);
+    /**
+     * Gets posts for user page.
+     *
+     * @return Query
+     */
+    public function findByUser(string $slug, $postsId): Query;
 
     public function deletePost(int $id): void;
 
+    /**
+     * Saves post to database.
+     */
     public function save(Post $post): void;
 }

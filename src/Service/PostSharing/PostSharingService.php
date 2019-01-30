@@ -16,6 +16,11 @@ use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\PostSharing\PostSharingRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 
+/**
+ * Provides all user's post's sharing functions.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class PostSharingService implements PostSharingServiceInterface
 {
     private $userRepository;

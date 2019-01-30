@@ -1,18 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 26.01.19
- * Time: 17:10
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Listener;
-
 
 use App\Repository\User\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
+/**
+ * Updates user activity on each user action.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 class UserListener extends AbstractController
 {
     private $userRepository;
@@ -25,10 +30,10 @@ class UserListener extends AbstractController
     public function __invoke(GetResponseEvent $event)
     {
         $user = $this->getUser();
-        if(!empty($user)){
+
+        if (!empty($user)) {
             $user->setLastActiveAt(new \DateTime());
             $this->userRepository->save($user);
         }
-
     }
 }

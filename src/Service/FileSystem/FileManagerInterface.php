@@ -11,6 +11,11 @@ namespace App\Service\FileSystem;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * Contract for file manager.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface FileManagerInterface
 {
     public function upload(UploadedFile $file);

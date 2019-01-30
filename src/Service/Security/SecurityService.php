@@ -11,7 +11,6 @@ namespace App\Service\Security;
 
 use App\Exception\FailedCredentialsException;
 use App\Repository\User\UserRepositoryInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityService implements SecurityServiceInterface
 {
@@ -25,6 +24,7 @@ class SecurityService implements SecurityServiceInterface
     public function verifyUsername(string $username)
     {
         $user = $this->userRepository->loadUserByUsername($username);
+
         if (null != $user) {
             throw new FailedCredentialsException('This username is already used.');
         }
@@ -33,6 +33,7 @@ class SecurityService implements SecurityServiceInterface
     public function verifyEmail(string $email)
     {
         $user = $this->userRepository->loadUserByUsername($email);
+
         if (null != $user) {
             throw new FailedCredentialsException('This email is already used.');
         }

@@ -1,15 +1,22 @@
 <?php
 
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Command;
 
 use App\Repository\User\UserRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Command for changing status if user is not active at least 15 minutes.
+ */
 class VerifyUserStatusCommand extends Command
 {
     private $userRepository;
@@ -39,6 +46,5 @@ class VerifyUserStatusCommand extends Command
             $user->setIsActive(false);
             $this->userRepository->save($user);
         }
-
     }
 }

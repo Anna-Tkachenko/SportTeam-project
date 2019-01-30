@@ -9,6 +9,11 @@
 
 namespace App\Service\Following;
 
+/**
+ * Contract for user's follow service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface FollowServiceInterface
 {
     public function getFollowing(string $slug);

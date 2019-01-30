@@ -103,5 +103,4 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user', ['slug' => $currentUser->getUsername()]);
     }
-
 }

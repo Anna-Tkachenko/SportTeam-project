@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository\UserFollowing;
 
 use App\Entity\UserFollowing;
@@ -7,8 +14,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method UserFollowing|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserFollowing|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|UserFollowing find($id, $lockMode = null, $lockVersion = null)
+ * @method null|UserFollowing findOneBy(array $criteria, array $orderBy = null)
  * @method UserFollowing[]    findAll()
  * @method UserFollowing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

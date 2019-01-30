@@ -28,7 +28,7 @@ class PostSharingRepository extends ServiceEntityRepository implements PostShari
         parent::__construct($registry, PostSharing::class);
     }
 
-    public function getIdByUser(int $id)
+    public function getPostIdByUser(int $id)
     {
         return $this->createQueryBuilder('p')
             ->select('identity(p.post)')
@@ -41,6 +41,9 @@ class PostSharingRepository extends ServiceEntityRepository implements PostShari
             ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(PostSharing $postSharing): void
     {
         $em = $this->getEntityManager();
@@ -55,9 +58,11 @@ class PostSharingRepository extends ServiceEntityRepository implements PostShari
         $em->flush();
     }
 
-    public function verifyShared(User $user, Post $post)
+    /**
+     * {@inheritdoc}
+     */
+    public function verifyShared(User $user, Post $post): ?PostSharing
     {
         return $this->findOneBy(['user' => $user, 'post' => $post]);
     }
-
 }

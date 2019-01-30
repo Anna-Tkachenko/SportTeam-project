@@ -9,8 +9,11 @@
 
 namespace App\Service\Security;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+/**
+ * Contract for security service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface SecurityServiceInterface
 {
     public function verifyUsername(string $username);

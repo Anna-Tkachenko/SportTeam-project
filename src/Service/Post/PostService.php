@@ -16,7 +16,6 @@ use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\PostSharing\PostSharingRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 use Doctrine\ORM\Query;
-use PHPUnit\Runner\Exception;
 
 /**
  * Service provides post data from the storage.
@@ -33,8 +32,7 @@ class PostService implements PostServiceInterface
         PostRepositoryInterface $postRepository,
         UserRepositoryInterface $userRepository,
         PostSharingRepositoryInterface $postSharingRepository
-    )
-    {
+    ) {
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
         $this->postSharingRepository = $postSharingRepository;
@@ -50,7 +48,8 @@ class PostService implements PostServiceInterface
     public function findOne(int $id)
     {
         $post = $this->postRepository->find($id);
-        if($post === null) {
+
+        if (null === $post) {
             throw new PostNotFoundException('Post not found.');
         }
 
@@ -65,7 +64,7 @@ class PostService implements PostServiceInterface
     public function getPosts(string $slug): Query
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
-        $postsId = $this->postSharingRepository->getIdByUser($user->getId());
+        $postsId = $this->postSharingRepository->getPostIdByUser($user->getId());
         $postsQuery = $this->postRepository->findByUser($slug, $postsId);
 
         return $postsQuery;

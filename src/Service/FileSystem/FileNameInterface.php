@@ -9,6 +9,11 @@
 
 namespace App\Service\FileSystem;
 
+/**
+ * Contract for file name service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface FileNameInterface
 {
     public function getName(string $originName): string;

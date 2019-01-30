@@ -12,6 +12,11 @@ namespace App\Service\Settings;
 use App\Dto\UserDto;
 use App\Entity\User;
 
+/**
+ * Contract for settings service.
+ *
+ * @author Anna Tkachenko <tkachenko.anna835@gmail.com>
+ */
 interface SettingsServiceInterface
 {
     public function getDto(User $user): UserDto;
