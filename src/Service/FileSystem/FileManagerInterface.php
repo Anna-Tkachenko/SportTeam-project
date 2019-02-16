@@ -9,6 +9,7 @@
 
 namespace App\Service\FileSystem;
 
+use App\Entity\Post;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -19,4 +20,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 interface FileManagerInterface
 {
     public function upload(UploadedFile $file);
+
+    public function deleteImage(Post $post): void;
 }

@@ -9,6 +9,7 @@
 
 namespace App\Service\FileSystem;
 
+use App\Entity\Post;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -33,5 +34,11 @@ class FileManager implements FileManagerInterface
         $file->move($this->uploadDir, $newFileName);
 
         return $newFileName;
+    }
+
+    public function deleteImage(Post $post): void
+    {
+        $oldFilePath = $this->uploadDir . $post->getImage();
+        unlink($oldFilePath);
     }
 }

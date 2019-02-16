@@ -18,6 +18,6 @@ class FileName implements FileNameInterface
 {
     public function getName(string $originName): string
     {
-        return \md5(\uniqid($originName));
+        return \md5($originName . microtime());
     }
 }

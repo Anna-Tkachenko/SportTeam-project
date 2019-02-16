@@ -10,12 +10,13 @@
 namespace App\Service\User;
 
 use App\Dto\User as DtoUser;
+use App\Dto\UserDto;
 use App\Entity\User;
-use App\Exception\NullAttributeException;
 use App\Repository\Post\PostRepositoryInterface;
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\Following\FollowServiceInterface;
 use App\User\UserMapper;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -54,7 +55,7 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getUser($currentUser, string $slug)
+    public function getUser($currentUser, $slug)
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
         $dataMapper = new UserMapper();
@@ -65,7 +66,7 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function getUserEntity(string $slug): User
+    public function getUserEntity($slug): User
     {
         $user = $this->userRepository->findOneBy(['username' => $slug]);
 
@@ -77,35 +78,23 @@ class UserPage implements UserPageInterface
         return $this->userRepository->loadAllUsers();
     }
 
-    public function create(array $data)
+    public function create(Request $request)
     {
-        if (isset($data['username']) && isset($data['first_name']) && isset($data['last_name'])
-            && isset($data['plain_password']) && isset($data['email']) && isset($data['is_active']) && isset($data['is_trainer'])) {
-        } else {
-            throw new NullAttributeException();
-        }
-
-        $user = new User();
-        $user->setUsername($data['username']);
-        $user->setFirstName($data['first_name']);
-        $user->setLastName($data['last_name']);
-        $user->setPlainPassword($data['plain_password']);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $data['plain_password']));
-        $user->setEmail($data['email']);
-        $user->setIsActive($data['is_active']);
-        $user->setIsTrainer($data['is_trainer']);
-
+        $userDto = new UserDto();
+        $userMapper = new UserMapper();
+        $userDto = $userDto->fromRequest($request);
+        $user = $userMapper->dtoToEntity($userDto, $this->passwordEncoder);
         $this->userRepository->save($user);
 
         return $user;
     }
 
-    public function findOne(int $id)
+    public function findOne($id)
     {
         return $this->userRepository->find($id);
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
         $user = $this->userRepository->find($id);
 
@@ -142,7 +131,7 @@ class UserPage implements UserPageInterface
         return $user;
     }
 
-    public function deleteUser(int $id): void
+    public function deleteUser($id): void
     {
         $this->userRepository->delete($id);
     }

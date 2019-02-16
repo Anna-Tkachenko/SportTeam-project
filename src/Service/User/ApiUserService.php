@@ -11,8 +11,8 @@ namespace App\Service\User;
 
 use App\Api\Document\DocumentBuilder;
 use App\Api\Mapper\UserApiMapper;
-use App\Dto\User;
 use App\Exception\NullAttributeException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides user resource for using in API.
@@ -21,10 +21,10 @@ use App\Exception\NullAttributeException;
  */
 class ApiUserService extends UserPage implements UserPageInterface
 {
-    public function create(array $data)
+    public function create(Request $request)
     {
         try {
-            $user = parent::create($data['attributes']);
+            $user = parent::create($request);
         } catch (NullAttributeException $e) {
             throw new \LogicException('You should declare all attributes.');
         }
@@ -35,7 +35,7 @@ class ApiUserService extends UserPage implements UserPageInterface
             ;
     }
 
-    public function findOne(int $id)
+    public function findOne($id)
     {
         $user =  parent::findOne($id);
 
@@ -49,7 +49,7 @@ class ApiUserService extends UserPage implements UserPageInterface
             ;
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
         $user =  parent::update($id, $data['attributes']);
 

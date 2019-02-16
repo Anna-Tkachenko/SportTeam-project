@@ -39,8 +39,7 @@ class PostManagementService implements PostManagementServiceInterface
 
         if (null != $postType->getImage()) {
             if (null != $post->getImage()) {
-                $oldFilePath = $projectDir . '/public/uploads/' . $post->getImage();
-                unlink($oldFilePath);
+                $this->fileManager->deleteImage($post);
             }
             $fileName = $this->fileManager->upload($postType->getImage());
             $post->setImage($fileName);

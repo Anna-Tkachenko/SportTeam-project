@@ -16,7 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * Provides form for changing user password.
@@ -36,11 +35,6 @@ class ChangePasswordType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
                     ]),
                 ],
             ]);

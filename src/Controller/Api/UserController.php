@@ -37,7 +37,7 @@ final class UserController extends AbstractFOSRestController
      */
     public function postUser(Request $request)
     {
-        $user = $this->service->create($request->request->get('data'));
+        $user = $this->service->create($request);
 
         return $this->view($user, Response::HTTP_CREATED);
     }

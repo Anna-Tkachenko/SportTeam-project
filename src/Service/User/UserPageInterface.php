@@ -10,6 +10,7 @@
 namespace App\Service\User;
 
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Contract for user service.
@@ -26,7 +27,7 @@ interface UserPageInterface
 
     public function getAllUsers();
 
-    public function create(array $data);
+    public function create(Request $request);
 
     public function findOne(int $id);
 

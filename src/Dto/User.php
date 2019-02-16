@@ -65,22 +65,27 @@ final class User
     {
         return $this->password;
     }
+
     public function getEmail(): string
     {
         return $this->email;
     }
+
     public function isActive(): bool
     {
         return $this->isActive;
     }
+
     public function getFirstName(): string
     {
         return $this->firstName;
     }
+
     public function getLastName(): string
     {
         return $this->lastName;
     }
+
     public function getImage(): ?string
     {
         return $this->image;

@@ -11,10 +11,12 @@ namespace App\User;
 
 use App\Entity\User;
 use App\Dto\User as UserDto;
+use App\Dto\UserDto as UserDtoObject;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserMapper
+final class UserMapper
 {
-    /**
+     /**
      * Maps user entity to DTO.
      *
      * @param User $entity Entity to map.
@@ -35,5 +37,25 @@ class UserMapper
             $entity->getIsPrivateFollowing(),
             $entity->getIsPrivateFollowers()
         );
+    }
+
+    /**
+     * Maps user DTO to user entity.
+     *
+     * @param UserDto $dto DTO to map.
+     *
+     * @return User Mapped new user entity.
+     */
+    public function dtoToEntity(UserDtoObject $dto, UserPasswordEncoderInterface $passwordEncoder): User
+    {
+        $user = new User();
+        $user->setUsername($dto->getUsername());
+        $user->setFirstName($dto->getFirstName());
+        $user->setLastName($dto->getLastName());
+        $user->setPassword($passwordEncoder->encodePassword($user, $dto->getPassword()));
+        $user->setEmail($dto->getEmail());
+        $user->setIsActive($dto->isActive());
+        $user->setIsTrainer($dto->isTrainer());
+        return $user;
     }
 }

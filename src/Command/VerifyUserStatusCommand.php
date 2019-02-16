@@ -39,12 +39,17 @@ class VerifyUserStatusCommand extends Command
     {
         $datetime = new \DateTime();
         $datetime = $datetime->sub(new \DateInterval('PT15M'));
+        $usersCount = $this->userRepository->getUsersCount() + 100;
+        $length = intdiv($usersCount, 100);
 
-        $users = $this->userRepository->loadUnActiveUser($datetime);
+        for($counter = 0; $counter < $length; $counter++)
+        {
+            $users = $this->userRepository->loadUnActiveUser($datetime);
+            foreach ($users as $user) {
+                $user->setIsActive(false);
+                $this->userRepository->save($user);
+            }
 
-        foreach ($users as $user) {
-            $user->setIsActive(false);
-            $this->userRepository->save($user);
         }
     }
 }

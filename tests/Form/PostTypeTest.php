@@ -1,13 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anna
- * Date: 19.01.19
- * Time: 21:47
+
+/*
+ * This file is part of the "Sport-team" project.
+ * (c) Anna Tkachenko <tkachenko.anna835@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Tests\Form;
-
 
 use App\Form\PostType;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -18,7 +18,7 @@ class PostTypeTest extends TypeTestCase
     {
         $formData = [
             'name' => 'name',
-            'content' => 'content'
+            'content' => 'content',
         ];
 
         $form = $this->factory->create(PostType::class);
@@ -26,6 +26,7 @@ class PostTypeTest extends TypeTestCase
         self::assertTrue($form->isSynchronized());
         $view = $form->createView();
         $children = $view->children;
+
         foreach ($formData as $key=>$data) {
             self::assertArrayHasKey($key, $children);
         }

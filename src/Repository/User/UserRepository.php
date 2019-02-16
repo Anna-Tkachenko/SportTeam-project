@@ -44,6 +44,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             ->andWhere('u.isActive = true')
             ->setParameter('datetime', $dateTime)
             ->getQuery()
+            ->setMaxResults(100)
             ->getResult();
     }
 
@@ -63,6 +64,14 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     {
         return $this->createQueryBuilder('u')
             ->getQuery();
+    }
+
+    public function getUsersCount()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**

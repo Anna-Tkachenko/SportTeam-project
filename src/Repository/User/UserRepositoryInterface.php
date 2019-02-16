@@ -34,4 +34,6 @@ interface UserRepositoryInterface extends UserLoaderInterface
     public function loadById(array $id): Query;
 
     public function loadAllUsers(): Query;
+
+    public function getUsersCount();
 }
